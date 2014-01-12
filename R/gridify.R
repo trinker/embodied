@@ -24,7 +24,7 @@
 #' @importFrom reports delete folder
 #' @seealso \code{\link[embodied]{plot_grid}}
 #' @examples
-#' \dontrun
+#' \dontrun{
 #' deb <- system.file("extdata", package = "embodied")
 #' gridify(deb, "out")
 #' }

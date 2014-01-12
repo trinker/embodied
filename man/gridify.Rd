@@ -46,7 +46,7 @@ Read in a directory of png files.  Add grid lines.  Output
 to directory.
 }
 \examples{
-\dontrun
+\dontrun{
 deb <- system.file("extdata", package = "embodied")
 gridify(deb, "out")
 }
