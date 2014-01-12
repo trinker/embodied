@@ -1,6 +1,8 @@
 embodied
 =======
 
+[![Build Status](https://travis-ci.org/trinker/embodied.png?branch=master)](https://travis-ci.org/trinker/embodied)
+
 embodied is a package that...
 
 ## Installation
