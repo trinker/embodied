@@ -1,16 +1,18 @@
 Package: embodied
 Type: Package
-Title: What the package does (short line)
+Title: Tools for working with embodied actions (movements within space).
 Version: 1.0
 Date: 2014-01-12
-Author: Who wrote it
-Maintainer: Who to complain to <yourfault@somewhere.net>
-Description: More about what it does (maybe more than one line)
-License: What license is it under?
-URL: http
-BugReports: http
-LazyData: TRUE
-VignetteBuilder: knitr
+Author: Tyler Rinker
+Maintainer: Tyler Rinker <tyler.rinker@gmail.com>
 Depends:
+    R (>= 3.0.0)
 Imports:
-Suggests:
+    ggplot2 (>= 0.9.3.1),
+    png
+Description: Provides tools for working with video data related to motion and
+    space.
+License: GPL-2
+URL: http://trinker.github.com/embodied/
+BugReports: http://github.com/trinker/embodied/issues
+LazyData: TRUE

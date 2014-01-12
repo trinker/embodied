@@ -1,28 +1,40 @@
-#' Title
+#' Calculate Grid Lines
 #' 
-#' Description
+#' Calculate gridlines to plot ontop of an image.
 #' 
-#' @param width
-#' @param height
-#' @return
+#' @param columns The number of columns.
+#' @param rows The number of rows.
+#' @return Returns a list of 4:
+#' \item{coords}{The coordinates to utilize for plotting the grid} 
+#' \item{columns}{The number of columns} 
+#' \item{rows}{The number of rows} 
+#' \item{points}{points and labels} 
 #' @references
-#' @keywords
+#' \url{http://stackoverflow.com/a/21043587/1000343}
+#' @author Troy (\url{stackoverflow.com}) and Tyler Rinker <tyler.rinker@@gmail.com>.
 #' @export
-#' @seealso
 #' @examples
-grid_calc <- function(width = 10, height = width) {
+#' grid_calc()
+grid_calc <- function(columns = 20, rows = columns, coord.labs = FALSE) {
 	
     # generate the points and labels for the grid
-    points <- data.frame(expand.grid(w=1:width, h=1:height))
-    points$labs <- paste0("(", points$w, "," ,points$h, ")")
+    points <- data.frame(expand.grid(w=1:columns, h=1:rows))
+	if (coord.labs) {
+         points$labs <- paste0("(", points$w, "," ,points$h, ")")
+	} else {
+		nr <- nrow(points)
+		nl <- ceiling(nr/26)
+		points$labs <- paste0(rep(LETTERS, nl), rep(1:nl, each = nl))[1:nr]
+		
+	}
     points$x <- points$w-0.5 # center
     points$y <- points$h-0.5
     
     # make the gridline co-ordinates
-    gridx <- data.frame(x=0:width, xend=0:width, y=rep(0,width+1), 
-    	yend=rep(height, width+1))
-    gridy <- data.frame(x=rep(0, height+1), xend=rep(width, height+1), 
-    	y=0:height, yend=0:height)
-    list(coords = rbind(gridx, gridy), w = width, h = height, points = points)
+    gridx <- data.frame(x=0:columns, xend=0:columns, y=rep(0,columns+1), 
+    	yend=rep(rows, columns+1))
+    gridy <- data.frame(x=rep(0, rows+1), xend=rep(columns, rows+1), 
+    	y=0:rows, yend=0:rows)
+    list(coords = rbind(gridx, gridy), columns = columns, rows = rows, 
+    	points = points)
 }
-
