@@ -15,18 +15,18 @@
 #' @export
 #' @examples
 #' grid_calc()
-grid_calc <- function(columns = 20, rows = columns, coord.labs = FALSE) {
+grid_calc <- function(columns = 20, rows = columns) {
 	
     # generate the points and labels for the grid
     points <- data.frame(expand.grid(w=1:columns, h=1:rows))
-	if (coord.labs) {
-         points$labs <- paste0("(", points$w, "," ,points$h, ")")
-	} else {
-		nr <- nrow(points)
-		nl <- ceiling(nr/26)
-		points$labs <- paste0(rep(LETTERS, nl), rep(1:nl, each = nl))[1:nr]
-		
-	}
+    points$coords <- paste0("(", points$w, "," ,points$h, ")")
+    nr <- nrow(points)
+    nl <- ceiling(nr/26)
+	
+    points$labs <- paste0(rep(LETTERS, nl), rep(1:nl, each = 26))[1:nr]
+	points$labs <- unlist(rev(split(points$labs, rep(1:rows, each = columns))))
+	
+	
     points$x <- points$w-0.5 # center
     points$y <- points$h-0.5
     
@@ -35,6 +35,6 @@ grid_calc <- function(columns = 20, rows = columns, coord.labs = FALSE) {
     	yend=rep(rows, columns+1))
     gridy <- data.frame(x=rep(0, rows+1), xend=rep(columns, rows+1), 
     	y=0:rows, yend=0:rows)
-    list(coords = rbind(gridx, gridy), columns = columns, rows = rows, 
+    list(coords = rbind(gridx, gridy), rows = rows, columns = columns, 
     	points = points)
 }

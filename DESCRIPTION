@@ -9,7 +9,8 @@ Depends:
     R (>= 3.0.0)
 Imports:
     ggplot2 (>= 0.9.3.1),
-    png
+    png,
+    reports
 Description: Provides tools for working with video data related to motion and
     space.
 License: GPL-2

@@ -1,19 +1,19 @@
-\name{plotgrid}
-\alias{plotgrid}
+\name{plot_grid}
+\alias{plot_grid}
 \title{Title}
 \usage{
-plotgrid(file, coord.color = "gray60", grid.color = coord.color,
-  text.size = 3, grid.data = grid_calc())
+plot_grid(file, text.color = "gray60", text.size = 3,
+  grid.color = text.color, grid.data = grid_calc())
 }
 \arguments{
   \item{file}{The imput png file.}
 
-  \item{coord.color}{The color to make the coordinate
+  \item{text.color}{The color to make the coordinate
   labels.}
 
-  \item{grid.color}{The color to make the grid.}
-
   \item{text.size}{The size of the coordinate labels.}
+
+  \item{grid.color}{The color to make the grid.}
 
   \item{grid.data}{The output from the \code{grid_calc}
   function.}
@@ -23,6 +23,12 @@ Returns an image with a grid and labels.
 }
 \description{
 Description
+}
+\examples{
+\dontrun{
+deb <- system.file("extdata/deb_roy.png", package = "embodied")
+plot_grid(deb, grid.data = grid_calc(5))
+}
 }
 \author{
 Troy (\url{stackoverflow.com}) and Tyler Rinker
