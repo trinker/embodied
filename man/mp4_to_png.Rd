@@ -2,7 +2,7 @@
 \alias{mp4_to_png}
 \title{Convert Video to Images}
 \usage{
-mp4_to_png(path, out = file.path(dirname(path), "raw"), images.per.sec = 1,
+mp4_to_png(path, out = file.path(dirname(path), "raw"), fps = 1,
   ffmpeg = NULL)
 }
 \arguments{
@@ -10,8 +10,8 @@ mp4_to_png(path, out = file.path(dirname(path), "raw"), images.per.sec = 1,
 
   \item{out}{Path to place the out .png files.}
 
-  \item{frames}{per second The number of image frames per
-  second to output.}
+  \item{fps}{The number of image frames per second to
+  output.}
 
   \item{ffmpeg}{Raw \href{http://www.ffmpeg.org/}{mmpeg}
   code that may be provided in lieu of the other

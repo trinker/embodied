@@ -4,7 +4,7 @@
 #' 
 #' @param path Path to the in .mp4 file.
 #' @param out Path to place the out .png files.
-#' @param frames per second The number of image frames per second to output.
+#' @param fps The number of image frames per second to output.
 #' @param ffmpeg Raw \href{http://www.ffmpeg.org/}{mmpeg} code that may be 
 #' provided in lieu of the other arguments.
 #' @return Returns an interval .mp4.
@@ -16,7 +16,7 @@
 #' mp4_to_png("spliced.mp4")
 #' }
 mp4_to_png <- function(path, out = file.path(dirname(path), "raw"), 
-    images.per.sec = 1, ffmpeg = NULL) {
+    fps = 1, ffmpeg = NULL) {
 
     ## Detect OS and use shell on Windows or system else
     fun <- ifelse(Sys.info()["sysname"] == "Windows", "shell", "system")
