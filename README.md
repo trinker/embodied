@@ -26,7 +26,7 @@ install_github(c("reports", "embodied"), "trinker")
 
 ## Help
   
-[Web Page](http://trinker.github.com/reports/)      
+[Web Page](http://trinker.github.com/embodied/)      
 [Package PDF Help Manual](https://dl.dropbox.com/u/61803503/embodied.pdf)      
 
 ## Contact
