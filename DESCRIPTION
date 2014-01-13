@@ -9,10 +9,11 @@ Depends:
     R (>= 3.0.0)
 Imports:
     ggplot2 (>= 0.9.3.1),
-    png,
-    reports
+    png
+Suggestess: animation
 Description: Provides tools for working with video data related to motion and
     space.
+SystemRequirements: FFmpeg (http://ffmpeg.org)
 License: GPL-2
 URL: http://trinker.github.com/embodied/
 BugReports: http://github.com/trinker/embodied/issues

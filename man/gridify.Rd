@@ -42,8 +42,9 @@ gridify(path = ".", out = file.path(path, "out"), columns = 20,
 Returns multiple png files with grid lines.
 }
 \description{
-Read in a directory of png files.  Add grid lines.  Output
-to directory.
+A wrapper function for \code{grid_calc} and
+\code{plot_grid} used to read in a directory of png files.
+Add grid lines.  Output to directory.
 }
 \examples{
 \dontrun{

@@ -6,7 +6,7 @@ Versioning
 
 Releases will be numbered with the following semantic versioning format:
 
-<major>.<minor>.<patch>
+<b>&lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;</b>
 
 And constructed with the following guidelines:
 
@@ -20,9 +20,9 @@ And constructed with the following guidelines:
 
 
 
-CHANGES IN embodied VERSION 0.1.0
+<b>CHANGES</b> IN <a href="https://github.com/trinker/embodied" target="_blank">embodied</a> VERSION 0.1.0
 ----------------------------------------------------------------
 
-* The first CRAN installation of the embodied package
+* The first CRAN installation of the <a href="https://github.com/trinker/embodied" target="_blank">embodied</a> package
 
 * Package designed to...

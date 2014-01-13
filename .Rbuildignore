@@ -2,3 +2,10 @@
 ^\.Rproj\.user$
 management
 ^\.travis\.yml
+inst/staticdocs
+NEWS.md
+NEWS.html
+FAQ.md
+FAQ.html
+extra_statdoc
+inst/maintenance.R
