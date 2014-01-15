@@ -5,6 +5,8 @@ embodied
 
 embodied is a package that provides video analysis tools for embodiement related tasks.
 
+<img src="inst/embodied_logo/embodied.png" width="35%">
+
 ## Installation
 
 To download the development version of embodied:

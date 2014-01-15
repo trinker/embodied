@@ -1,9 +1,13 @@
 \name{mp4_to_png}
 \alias{mp4_to_png}
+\alias{png_to_mp4}
 \title{Convert Between Video/Images}
 \usage{
 mp4_to_png(path, out = file.path(dirname(path), "raw"), fps = 4,
   size = "500x500", other.opts = "", crop = "", ffmpeg = NULL)
+
+png_to_mp4(path, out = file.path(dirname(path), "raw"), fps = 4,
+  ffmpeg = NULL)
 }
 \arguments{
   \item{path}{Path to the in .mp4 video file
@@ -38,14 +42,21 @@ mp4_to_png(path, out = file.path(dirname(path), "raw"), fps = 4,
 \value{
 \code{mp4_to_png} - Returns an directory of still .png
 images.
+
+\code{mp4_to_png} - Returns a spliced .mp4 video.
 }
 \description{
 \code{mp4_to_png} - Converts a .mp4 video to a directory of
 sill .png images.
+
+\code{png_to_mp4} - Converts a directory of .png images to
+.mp4 video.
 }
 \note{
 User must have \href{http://www.ffmpeg.org/}{mmpeg}
 installed.
+
+\code{mp4_to_png} - Currently not functional.
 }
 \examples{
 \dontrun{

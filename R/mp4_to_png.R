@@ -76,52 +76,52 @@ mp4_to_png <- function(path, out = file.path(dirname(path), "raw"),
 }
 
 
-## #' Convert Between Video/Images
-## #' 
-## #' \code{png_to_mp4} - Converts a directory of .png images to .mp4 video.
-## #' 
-## #' @return \code{mp4_to_png} - Returns a spliced .mp4 video.
-## #' @export
-## #' @rdname mp4_to_png
-## png_to_mp4 <- function(path, out = file.path(dirname(path), "raw"), 
-##     fps.in = 4, fps.out = fps.in, ffmpeg = NULL) {
-## ## Currently not working
-##     ## Detect OS and use shell on Windows or system else
-##     fun <- ifelse(Sys.info()["sysname"] == "Windows", "shell", "system")
-##     fun <- match.fun(fun)
-## 
-##     if (missing(path) & is.null(ffmpeg)) {
-## 		stop("Please supply `path` or `ffmpeg`")
-## 	}
-## 
-## 	## Check if ffmpeg is available
-##     version <- try(fun("ffmpeg -version", intern = TRUE))
-##     if (inherits(version, 'try-error')) {
-##         warning("The command `ffmpeg`", 
-##            " is not available in your system. Please install ffmpeg first:\n",
-##            "http://www.ffmpeg.org/download.html")
-##         return()
-##     }
-## 	
-##     if (file.exists(out)) {
-##         message(paste0("\"", out, 
-##             "\" already exists:\nDo you want to overwrite?\n"))
-##         ans <- menu(c("Yes", "No"))
-##         if (ans == "2") {
-##             stop("mp4_to_raw aborted")
-##         }
-##         else {
-##             delete(out)
-##         }
-##     }
-##     folder(folder.name=out)
-## #ffmpeg -r 4 -i image-%07d.png -c:v libx264 -r 4 -pix_fmt yuv420p out.mp4		
-##     if (is.null(ffmpeg)) {
-##         ffmpeg <- sprintf("ffmpeg -r %s -i image2 -vf fps=fps=%s %s", path, fps, out)
-##     	ffmpeg <- paste0(ffmpeg, "/image-%07d.png")
-##     }
-##     fun(ffmpeg)
-##     message(sprintf(".png images in:\n%s", out))
-## }
+#' Convert Between Video/Images
+#' 
+#' \code{png_to_mp4} - Converts a directory of .png images to .mp4 video.
+#' 
+#' @return \code{mp4_to_png} - Returns a spliced .mp4 video.
+#' @note \code{mp4_to_png} - Currently not functional.
+#' @export
+#' @rdname mp4_to_png
+png_to_mp4 <- function(path, out = file.path(dirname(path), "raw"), 
+    fps =4, ffmpeg = NULL) {
+## Currently not working
+    ## Detect OS and use shell on Windows or system else
+    fun <- ifelse(Sys.info()["sysname"] == "Windows", "shell", "system")
+    fun <- match.fun(fun)
 
+    if (missing(path) & is.null(ffmpeg)) {
+		stop("Please supply `path` or `ffmpeg`")
+	}
+
+	## Check if ffmpeg is available
+    version <- try(fun("ffmpeg -version", intern = TRUE))
+    if (inherits(version, 'try-error')) {
+        warning("The command `ffmpeg`", 
+           " is not available in your system. Please install ffmpeg first:\n",
+           "http://www.ffmpeg.org/download.html")
+        return()
+    }
+	
+    if (file.exists(out)) {
+        message(paste0("\"", out, 
+            "\" already exists:\nDo you want to overwrite?\n"))
+        ans <- menu(c("Yes", "No"))
+        if (ans == "2") {
+            stop("mp4_to_raw aborted")
+        }
+        else {
+            delete(out)
+        }
+    }
+    folder(folder.name=out)
+#ffmpeg -r 4 -i image-%07d.png -c:v libx264 -r 4 -pix_fmt yuv420p out.mp4		
+    if (is.null(ffmpeg)) {
+        ffmpeg <- sprintf("ffmpeg -r %s -i image2 -vf fps=fps=%s %s", path, fps, out)
+    	ffmpeg <- paste0(ffmpeg, "/image-%07d.png")
+    }
+    fun(ffmpeg)
+    message(sprintf(".png images in:\n%s", out))
+}
 

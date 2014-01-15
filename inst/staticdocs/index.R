@@ -4,6 +4,8 @@ list(
     sd_section("Video Manipulation",
       "Functions to manipulate/convert mp4 videos to .mp4 videos/.png images.",  
       c(
+      	"convert_to_mp4",
+      	"mp4_duration", 
       	"mp4_interval",
         "mp4_to_png"
       )
@@ -25,6 +27,11 @@ list(
       "Functions to plot spatial data.",
       c(
       )
-    )
+    ),
+    sd_section("embodied Tools",
+      "Generic Tools (Functions) Used Within the embodied Package.",
+      c(
+      )
+    )  	
 ))
 
