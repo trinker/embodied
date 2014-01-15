@@ -56,7 +56,7 @@ convert_to_mp4 <- function(path,
         codec <- switch(file_ext(path),
              mov = {codec <- "-vcodec copy -acodec copy"}, 
              avi = {codec <- "-vcodec copy -acodec copy"},
-             wmv = {codec <- "-vcodeclibx264 -strict -2"},
+             wmv = {codec <- "-vcodec libx264 -strict -2"},
              {warning(file_ext(path), " type not be supported")
                  codec <- "-vcodec copy -acodec copy"}
         )

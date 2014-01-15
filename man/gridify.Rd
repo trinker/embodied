@@ -5,10 +5,12 @@
 gridify(path = ".", out = file.path(path, "out"), columns = 20,
   rows = columns, parallel = FALSE, cores = detectCores()/2,
   width = 480, height = 480, text.color = "gray60", text.size = 3,
-  grid.color = text.color, ...)
+  grid.color = text.color, fps = 4, size = "500x500", other.opts = "",
+  crop = "", ...)
 }
 \arguments{
-  \item{path}{Path to the in directory with the png files.}
+  \item{path}{Path to the in directory with the .png files
+  or a single .mp4 file.}
 
   \item{out}{Path to the out directory.}
 
@@ -19,7 +21,9 @@ gridify(path = ".", out = file.path(path, "out"), columns = 20,
   \item{parallel}{logical.  If \code{TRUE} attempts to run
   the function on multiple cores.  Note that this may not
   mean a speed boost if you have one core or if the data
-  set is smaller as the cluster takes time to create.}
+  set is smaller as the cluster takes time to create.
+  \code{parallel = TRUE} does not seem to be beneficial,
+  utilizing 4 cores, until about 200 images.}
 
   \item{cores}{The number of cores to use if \code{parallel
   = TRUE}.  Default is half the number of available cores.}
@@ -34,6 +38,24 @@ gridify(path = ".", out = file.path(path, "out"), columns = 20,
   \item{text.size}{The size of the coordinate labels.}
 
   \item{grid.color}{The color to make the grid.}
+
+  \item{fps}{The number of image frames per second to
+  output.  Generally the fps used to desconstruct a video
+  into images will be used to reconstruct the images back
+  to video.}
+
+  \item{size}{Character string of the output size of the
+  png files in the form of "width x height" (in px and no
+  spaces).}
+
+  \item{other.opts}{other options to be passed to
+  \href{http://www.ffmpeg.org/}{ffmpeg}.}
+
+  \item{crop}{Character string of
+  \href{http://www.ffmpeg.org/}{ffmpeg} code used to crop
+  the images (e.g. \code{"-vf crop=in_w-2*120"}).  See:
+  \url{http://www.ffmpeg.org/ffmpeg-filters.html#crop} for
+  more.}
 
   \item{\ldots}{other arguments passed to
   \code{\link[grDevices]{png}}.}
@@ -52,5 +74,6 @@ gridify(deb, "out")
 }
 \seealso{
 \code{\link[embodied]{plot_grid}}
+\code{\link[embodied]{mp4_to_png}}
 }
 
