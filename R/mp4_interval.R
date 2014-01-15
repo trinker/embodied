@@ -6,9 +6,9 @@
 #' @param out Path to the out .mp4 file.
 #' @param from The starting time the grab from in the form of "00:00:00.0" 
 #' ("hh:mm:ss.d").
-#' @param to The ending time to grab from (may provide either \code{to} or 
+#' @param to The ending time to grab to (may provide either \code{to} or 
 #' \code{duration}) in the form of "00:00:00.0" ("hh:mm:ss.d").
-#' @param duration The duration to the ending time to grab from (may provide 
+#' @param duration The duration to the ending time to grab to (may provide 
 #' either \code{to} or \code{duration}) in the form of "00:00:00.0" 
 #' ("hh:mm:ss.d") or numeric seconds.
 #' @param ffmpeg Raw \href{http://www.ffmpeg.org/}{mmpeg} code that may be 
@@ -30,6 +30,15 @@ mp4_interval <- function(path, out = file.path(dirname(path), "interval.mp4"),
     fun <- ifelse(Sys.info()["sysname"] == "Windows", "shell", "system")
     fun <- match.fun(fun)
 
+	## Check if ffmpeg is available
+    version <- try(fun("ffmpeg -version", intern = TRUE))
+    if (inherits(version, 'try-error')) {
+        warning("The command `ffmpeg`", 
+           " is not available in your system. Please install ffmpeg first:\n",
+           "http://www.ffmpeg.org/download.html")
+        return()
+    }
+	
 	if (is.null(path) & is.null(ffmpeg)) {
 		stop("Please supply `path` or `ffmpeg`")
 	}
@@ -44,9 +53,8 @@ mp4_interval <- function(path, out = file.path(dirname(path), "interval.mp4"),
             duration <- hms2sec(duration)
         }
         ffmpeg <- sprintf("ffmpeg -i %s -ss %s -c copy -t %s %s", 
-            path, from, duration, out)
+            shQuote(path), from, duration, shQuote(out))
     }
     fun(ffmpeg)
     message(sprintf("Interval video in:\n%s", out))
 }
-

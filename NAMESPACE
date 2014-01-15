@@ -1,5 +1,7 @@
+export(convert_to_mp4)
 export(grid_calc)
 export(gridify)
+export(mp4_duration)
 export(mp4_interval)
 export(mp4_to_png)
 export(plot_grid)

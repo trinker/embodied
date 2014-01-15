@@ -16,7 +16,7 @@ list(
         "plot_grid"
       )
     ),         
-    sd_section("Data HAndling",
+    sd_section("Data Handling",
       "Functions to aid recording, managing, and reshaping spatial data.",
       c(
       )

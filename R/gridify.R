@@ -24,14 +24,13 @@
 #' @importFrom tools file_ext
 #' @seealso \code{\link[embodied]{plot_grid}}
 #' @examples
-#' \dontrun{
 #' deb <- system.file("extdata", package = "embodied")
 #' gridify(deb, "out")
-#' }
 gridify <- function(path = ".", out = file.path(path, "out"), 
     columns = 20, rows = columns, parallel = FALSE, cores = detectCores()/2,
     width = 480, height = 480, text.color = "gray60", text.size = 3, 
 	grid.color = text.color, ...){
+	
 ## detect mp4 file extension and use mp4_to_png to generate pngs w/ grids
     if (file.exists(file.path(path, "out"))) {
         message(paste0("\"", file.path(path, "out"), 

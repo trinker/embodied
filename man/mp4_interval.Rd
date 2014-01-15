@@ -13,12 +13,12 @@ mp4_interval(path, out = file.path(dirname(path), "interval.mp4"),
   \item{from}{The starting time the grab from in the form
   of "00:00:00.0" ("hh:mm:ss.d").}
 
-  \item{to}{The ending time to grab from (may provide
-  either \code{to} or \code{duration}) in the form of
-  "00:00:00.0" ("hh:mm:ss.d").}
+  \item{to}{The ending time to grab to (may provide either
+  \code{to} or \code{duration}) in the form of "00:00:00.0"
+  ("hh:mm:ss.d").}
 
   \item{duration}{The duration to the ending time to grab
-  from (may provide either \code{to} or \code{duration}) in
+  to (may provide either \code{to} or \code{duration}) in
   the form of "00:00:00.0" ("hh:mm:ss.d") or numeric
   seconds.}
 

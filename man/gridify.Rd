@@ -47,10 +47,8 @@ A wrapper function for \code{grid_calc} and
 Add grid lines.  Output to directory.
 }
 \examples{
-\dontrun{
 deb <- system.file("extdata", package = "embodied")
 gridify(deb, "out")
-}
 }
 \seealso{
 \code{\link[embodied]{plot_grid}}
