@@ -11,8 +11,8 @@
 #' @param parallel logical.  If \code{TRUE} attempts to run the function on 
 #' multiple cores.  Note that this may not mean a speed boost if you have one 
 #' core or if the data set is smaller as the cluster takes time to create.  
-#' \code{parallel = TRUE} does not seem to be beneficial, utilizing 4 cores, 
-#' until about 200 images.
+#' For a visual representation of the use of parallel processing see:
+#' \url{}
 #' @param cores The number of cores to use if \code{parallel = TRUE}.  Default 
 #' is half the number of available cores.
 #' @param width The width of the device.
@@ -41,7 +41,7 @@
 #' deb <- system.file("extdata", package = "embodied")
 #' gridify(deb, "out")
 gridify <- function(path = ".", out = file.path(path, "out"), 
-    columns = 20, rows = columns, parallel = FALSE, cores = detectCores()/2,
+    columns = 20, rows = columns, parallel = TRUE, cores = detectCores()/2,
     width = 480, height = 480, text.color = "gray60", text.size = 3, 
 	grid.color = text.color, fps = 4, size = "500x500", other.opts = "", 
 	crop = "", ...){
