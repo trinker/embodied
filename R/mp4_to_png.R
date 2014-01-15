@@ -66,10 +66,11 @@ mp4_to_png <- function(path, out = file.path(dirname(path), "raw"),
 	}
 	
     if (is.null(ffmpeg)) {
+    	nimg <- n_img(path = path, fps =fps)
         ffmpeg <- sprintf("ffmpeg -i %s %s %s -f image2 -vf fps=fps=%s %s", 
         	shQuote(path), size, crop, fps, shQuote(out))
     	ffmpeg <- paste0(ffmpeg, "/image-%0", 
-    		nchar(ceiling(fps * mp4_duration(path))), "d.png")
+    		nchar(nimg), "d.png")
     }
     fun(ffmpeg)
     message(sprintf(".png images in:\n%s", out))

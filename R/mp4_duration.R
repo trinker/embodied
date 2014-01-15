@@ -1,14 +1,16 @@
 #' Video Duration
 #' 
-#' Reports the length of a video in seconds.
+#' \code{mp4_duration} - Reports the length of a video in seconds.
 #' 
 #' @param path Path to the in .mp4 file.
 #' @return A numeric value giving length of video in seconds.
 #' @keywords duration
 #' @export
+#' @rdname mp3_duration
 #' @examples
 #' \dontrun{
 #' mp4_duration("foo.mp4")
+#' n_img("foo.mp4", 4)
 #' }
 mp4_duration <- function(path) {
 
@@ -37,3 +39,20 @@ mp4_duration <- function(path) {
     durline <- durin[grepl("Duration", durin)]
     hms2sec(Trim(genXtract(durline, "Duration:", ",")))
 }
+
+#' Video Duration
+#' 
+#' \code{n_img} - Reports the approximate number of images based on guration and 
+#' frames per second.
+#' 
+#' @param fps The number of image frames per second to output.  Generally the 
+#' fps used to desconstruct a video into images will be used to reconstruct the 
+#' images back to video.
+#' @return A numeric value giving length of video in seconds.
+#' @export
+#' @rdname mp3_duration
+n_img <- function(path, fps) {
+    ceiling(fps * mp4_duration(path))
+}
+
+
