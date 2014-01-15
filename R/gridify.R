@@ -12,7 +12,7 @@
 #' multiple cores.  Note that this may not mean a speed boost if you have one 
 #' core or if the data set is smaller as the cluster takes time to create.  
 #' For a visual representation of the use of parallel processing see:
-#' \url{}
+#' \url{https://raw.github.com/trinker/embodied/master/inst/gridify_parallel_test/output.png}
 #' @param cores The number of cores to use if \code{parallel = TRUE}.  Default 
 #' is half the number of available cores.
 #' @param width The width of the device.
