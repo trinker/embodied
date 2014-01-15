@@ -22,7 +22,7 @@ path <- "C:/Users/trinker/Desktop/embodied"
 path2 <- paste0(path, "/index.html")
 rdme <- "C:/Users/trinker/GitHub/embodied/inst/extra_statdoc/readme.R"
 extras <- qcv(png_to_mp4)
-expand_statdoc(path2, readme = rdme)
+expand_statdoc(path2, to.icon = extras, readme = rdme)
 
 
 #STEP 3: move to trinker.guthub
