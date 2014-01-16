@@ -6,7 +6,7 @@
 #' @return A numeric value giving length of video in seconds.
 #' @keywords duration
 #' @export
-#' @rdname mp3_duration
+#' @rdname mp4_duration
 #' @examples
 #' \dontrun{
 #' mp4_duration("foo.mp4")
@@ -50,7 +50,7 @@ mp4_duration <- function(path) {
 #' images back to video.
 #' @return A numeric value giving length of video in seconds.
 #' @export
-#' @rdname mp3_duration
+#' @rdname mp4_duration
 n_img <- function(path, fps) {
     ceiling(fps * mp4_duration(path))
 }
