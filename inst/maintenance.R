@@ -9,6 +9,8 @@
 #staticdocs current version
 #==========================
 #packages
+# install.packages("highlight"); library(devtools); install_github("staticdocs", "hadley")
+
 library(highlight); library(qdap); library(staticdocs); library(acc.roxygen2)
 
 #STEP 1: create static doc  
@@ -21,8 +23,8 @@ build_package(package="C:/Users/trinker/GitHub/embodied",
 path <- "C:/Users/trinker/Desktop/embodied"
 path2 <- paste0(path, "/index.html")
 rdme <- "C:/Users/trinker/GitHub/embodied/inst/extra_statdoc/readme.R"
-extras <- qcv(png_to_mp4, n_img)
-expand_statdoc(path2, to.icon = extras, readme = rdme)
+
+expand_statdoc(path2, to.icon = c("png_to_mp4", "n_img"), readme = rdme)
 
 
 #STEP 3: move to trinker.guthub
