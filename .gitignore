@@ -7,3 +7,4 @@
 embodied.Rproj
 video
 ^\.travis\.yml
+inst/sandbox/out
