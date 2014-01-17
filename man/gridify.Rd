@@ -2,17 +2,21 @@
 \alias{gridify}
 \title{Add Grids to Multiple png}
 \usage{
-gridify(path = ".", out = file.path(path, "out"), columns = 20,
-  rows = columns, parallel = TRUE, cores = detectCores()/2, width = 480,
-  height = 480, text.color = "gray60", text.size = 3,
-  grid.color = text.color, fps = 4, size = "500x500", other.opts = "",
-  crop = "", ...)
+gridify(path = ".", out = file.path(path, "out"), pdf = TRUE,
+  columns = 20, rows = columns, parallel = TRUE,
+  cores = detectCores()/2, width = 6, height = 6, text.color = "gray60",
+  text.size = 3, grid.color = text.color, fps = 4, size = "500x500",
+  other.opts = "", crop = "", ...)
 }
 \arguments{
   \item{path}{Path to the in directory with the .png files
   or a single .mp4 file.}
 
   \item{out}{Path to the out directory.}
+
+  \item{pdf}{logical.  If \code{TRUE} a single .pdf
+  (\file{./raw/gridified.png}) is generated.  This enables
+  zooming and a single scrollable file.}
 
   \item{columns}{The number of grid columns.}
 

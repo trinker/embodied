@@ -66,4 +66,5 @@ convert_to_mp4 <- function(path,
         shQuote(path), codec, shQuote(out)))
     
     message(".mp4 file generated:\n", out)
+	invisible(out)	
 }

@@ -6,6 +6,8 @@
 #' @param path Path to the in directory with the .png files or a single .mp4 
 #' file.
 #' @param out Path to the out directory.
+#' @param pdf logical.  If \code{TRUE} a single .pdf (\file{./raw/gridified.png})
+#' is generated.  This enables zooming and a single scrollable file.
 #' @param columns The number of grid columns.
 #' @param rows The number of grid rows.
 #' @param parallel logical.  If \code{TRUE} attempts to run the function on 
@@ -35,16 +37,17 @@
 #' @export
 #' @importFrom parallel parLapply makeCluster detectCores stopCluster clusterEvalQ clusterExport
 #' @importFrom tools file_ext
+#' @importFrom ggplot2 ggtitle
 #' @seealso \code{\link[embodied]{plot_grid}}
 #' \code{\link[embodied]{mp4_to_png}}
 #' @examples
 #' deb <- system.file("extdata", package = "embodied")
 #' gridify(deb, "out")
-gridify <- function(path = ".", out = file.path(path, "out"), 
+gridify <- function(path = ".", out = file.path(path, "out"), pdf = TRUE,
     columns = 20, rows = columns, parallel = TRUE, cores = detectCores()/2,
-    width = 480, height = 480, text.color = "gray60", text.size = 3, 
-	grid.color = text.color, fps = 4, size = "500x500", other.opts = "", 
-	crop = "", ...){
+    width = 6, height = 6, text.color = "gray60", text.size = 3, 
+    grid.color = text.color, fps = 4, size = "500x500", other.opts = "", 
+    crop = "", ...){
 	
 	## Evaluate out because path may change and defualt uses path
     if(basename(path) == path && file_ext(path) =="mp4" && 
@@ -76,31 +79,63 @@ gridify <- function(path = ".", out = file.path(path, "out"),
     fls <-file.path(path, fls)[file_ext(fls) == "png"]
     dat <- grid_calc(columns, rows)
 
-	## Parallel process handling
-    if (parallel && cores > 1){
-        plot_fun <- function(x) png(x, width=width, height=height, ...)
-        
-        cl <- makeCluster(mc <- getOption("cl.cores", detectCores()/2))
-        vars <- c("fls", "plot_grid", "dat", "text.color", "grid.color", "plot_fun", "text.size")
-        
-        clusterExport(cl=cl, varlist=vars, envir = environment())
-        
-        parLapply(cl, fls, function(x){
-            plot_fun(file.path(out, basename(x)))
-            print(plot_grid(x, grid.data = dat, text.color = text.color, 
-                text.size = text.size, grid.color = grid.color))
+    ## pdf vs png output
+    if(pdf) {
+        ## Parallel process handling
+        if (parallel && cores > 1){
+            
+            cl <- makeCluster(mc <- getOption("cl.cores", detectCores()/2))
+            vars <- c("fls", "dat", "text.color", "grid.color", "ggtitle",
+                "plot_grid", "text.size")
+            
+            clusterExport(cl=cl, varlist=vars, envir = environment())
+            
+            imgs <- parLapply(cl, fls, function(x){
+                plot_grid(x, grid.data = dat, text.color = text.color, 
+                    text.size = text.size, grid.color = grid.color)+ 
+                    ggtitle(basename(x))
+            })
+            
+            stopCluster(cl)
+            pdf(file.path(out, "gridified.pdf"), width=width, height=height, ...)
+            invisible(print(imgs))
             dev.off()
-        })
-        
-        stopCluster(cl)
-    } else { 
-        invisible(lapply(fls, function(x){
-            png(file.path(out, basename(x)), width=width, height=height, ...)
-            print(plot_grid(x, grid.data = dat, text.color = text.color, 
-            	text.size = text.size, grid.color = grid.color))
+        } else { 
+            pdf(file.path(out, "gridified.pdf"), width=width, height=height, ...)
+            invisible(lapply(fls, function(x){
+                print(plot_grid(x, grid.data = dat, text.color = text.color, 
+                	text.size = text.size, grid.color = grid.color) + 
+                  ggtitle(basename(x)))
+            }))
             dev.off()
-        }))
+        }
+    } else {
+        ## Parallel process handling
+        if (parallel && cores > 1){
+            plot_fun <- function(x) png(x, width=width, height=height, ...)
+            
+            cl <- makeCluster(mc <- getOption("cl.cores", detectCores()/2))
+            vars <- c("fls", "plot_grid", "dat", "text.color", "grid.color", "plot_fun", "text.size")
+            
+            clusterExport(cl=cl, varlist=vars, envir = environment())
+            
+            parLapply(cl, fls, function(x){
+                plot_fun(file.path(out, basename(x)))
+                print(plot_grid(x, grid.data = dat, text.color = text.color, 
+                    text.size = text.size, grid.color = grid.color))
+                dev.off()
+            })
+            
+            stopCluster(cl)
+        } else { 
+            invisible(lapply(fls, function(x){
+                png(file.path(out, basename(x)), width=width, height=height, ...)
+                print(plot_grid(x, grid.data = dat, text.color = text.color, 
+                	text.size = text.size, grid.color = grid.color))
+                dev.off()
+            }))
+        }
     }
-
     message(sprintf("Grid files plotted to:\n%s", out))
+    invisible(out)	
 }
