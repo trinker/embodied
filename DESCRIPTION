@@ -8,11 +8,14 @@ Maintainer: Tyler Rinker <tyler.rinker@gmail.com>
 Depends:
     R (>= 3.0.0)
 Imports:
+    chron,
     ggplot2 (>= 0.9.3.1),
     parallel,
-    png
+    png,
+    scales
 Suggests:
-    animation
+    animation,
+    reshape2
 Description: Provides tools for working with video data related to motion and
     space.
 SystemRequirements: FFmpeg (http://ffmpeg.org)
