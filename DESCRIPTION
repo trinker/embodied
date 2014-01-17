@@ -11,11 +11,11 @@ Imports:
     chron,
     ggplot2 (>= 0.9.3.1),
     parallel,
-    png,
-    scales
+    png
 Suggests:
     animation,
-    reshape2
+    reshape2,
+    scales
 Description: Provides tools for working with video data related to motion and
     space.
 SystemRequirements: FFmpeg (http://ffmpeg.org)
