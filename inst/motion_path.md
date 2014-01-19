@@ -7,6 +7,7 @@ The following short script allows us to generate a motion path animated .mp4 and
 First you may want to test if [ffmpeg](http://www.ffmpeg.org/ffmpeg.html) and [ImageMagick](http://www.imagemagick.org/script/index.php) are available and on your path:
 
 ```
+library(embodied)
 command("ffmpeg --version")
 command("convert --version")
 ```

@@ -9,3 +9,4 @@ video
 ^\.travis\.yml
 inst/sandbox/out
 README.html
+motion_path.html
