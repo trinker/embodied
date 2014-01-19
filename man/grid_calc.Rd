@@ -2,7 +2,7 @@
 \alias{grid_calc}
 \title{Calculate Grid Lines}
 \usage{
-grid_calc(columns = 20, rows = columns)
+grid_calc(columns = 30, rows = columns)
 }
 \arguments{
   \item{columns}{The number of columns.}

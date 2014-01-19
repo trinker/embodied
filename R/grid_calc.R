@@ -15,7 +15,7 @@
 #' @export
 #' @examples
 #' grid_calc()
-grid_calc <- function(columns = 20, rows = columns) {
+grid_calc <- function(columns = 30, rows = columns) {
 	
     # generate the points and labels for the grid
     points <- data.frame(expand.grid(w=1:columns, h=1:rows))

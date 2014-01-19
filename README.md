@@ -5,7 +5,7 @@ embodied
 
 embodied is a package that provides video analysis tools for embodiement related tasks.
 
-<center><img src="inst/embodied_logo/embodied.png" width="35%"></center>
+<img src="inst/embodied_logo/embodied.png" width="35%">
 
 ## Installation
 
@@ -33,7 +33,7 @@ install_github(c("reports", "embodied"), "trinker")
 
 ## Example Output
 
-<center><img src="inst/sandbox/out.gif" width="50%"></center>
+<img src="inst/sandbox/out.gif" width="50%">
 
 ## Contact
 

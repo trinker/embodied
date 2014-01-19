@@ -1,15 +1,15 @@
 \docType{data}
 \name{deb_wide}
 \alias{deb_wide}
-\title{Deb Roy Ted Talk Wide}
+\title{Deb Roy Fake Lab Motion (Wide Format)}
 \format{A data frame with 30 rows and 6 variables}
 \usage{
 data(deb_wide)
 }
 \description{
-A fictional dataset containing fabricated motion paths for
-Deb Roy, Philip DeCamp, Brandon C. Roy, and Rony Kubat in
-Deb's MIT lab.
+A fictional wide dataset containing fabricated motion paths
+for Deb Roy, Philip DeCamp, Brandon C. Roy, and Rony Kubat
+in Deb's MIT lab.
 }
 \details{
 \itemize{ \item id. The image frame id number.  \item time.

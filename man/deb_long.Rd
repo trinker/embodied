@@ -1,15 +1,15 @@
 \docType{data}
 \name{deb_long}
 \alias{deb_long}
-\title{Deb Roy Ted Talk Long}
+\title{Deb Roy Fake Lab Motion (Long Format)}
 \format{A data frame with 120 rows and 4 variables}
 \usage{
 data(deb_long)
 }
 \description{
-A fictional dataset containing fabricated motion paths for
-Deb Roy, Philip DeCamp, Brandon C. Roy, and Rony Kubat in
-Deb's MIT lab.
+A fictional long dataset containing fabricated motion paths
+for Deb Roy, Philip DeCamp, Brandon C. Roy, and Rony Kubat
+in Deb's MIT lab.
 }
 \details{
 \itemize{ \item id. The image frame id number.  \item time.

@@ -44,7 +44,7 @@
 #' deb <- system.file("extdata", package = "embodied")
 #' gridify(deb, "out")
 gridify <- function(path = ".", out = file.path(path, "out"), pdf = TRUE,
-    columns = 20, rows = columns, parallel = TRUE, cores = detectCores()/2,
+    columns = 30, rows = columns, parallel = TRUE, cores = detectCores()/2,
     width = 6, height = 6, text.color = "gray60", text.size = 3, 
     grid.color = text.color, fps = 4, size = "500x500", other.opts = "", 
     crop = "", ...){
