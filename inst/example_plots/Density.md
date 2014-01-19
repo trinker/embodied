@@ -94,10 +94,12 @@ base +
 ```r
 base + 
     stat_density2d(data = dat, 
-        aes(x=x, y=y, alpha=..level.., fill=..level..), size=2, bins=10, geom="polygon") + 
+        aes(x=x, y=y, alpha=..level.., fill=..level..), size=2, bins=10, 
+        geom="polygon") + 
     scale_fill_gradient(low = "yellow", high = "red", name = "Level") +
     scale_alpha(range = c(0.00, 0.5), guide = FALSE) +
-    geom_density2d(colour="black", , show_guide=FALSE) +
+    geom_density2d(data = dat, aes(x=x, y=y), colour="black", bins=10, 
+        show_guide=FALSE) +
     geom_point(data = dat, aes(size = wc, colour = person, x=x, y=y)) +
     geom_point(data = dat, aes(size = wc, colour = person, x=x, y=y), 
         shape = 1, colour = "black", guide=FALSE) +
