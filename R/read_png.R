@@ -10,7 +10,7 @@
 #' @return Reads in and plots a png file.
 #' @keywords raster 
 #' @export
-#' @importFrom ggplot2 ggplot theme annotation_custom geom_text geom_segment coord_cartesian aes theme_bw
+#' @importFrom ggplot2 ggplot theme element_blank annotation_custom geom_text geom_segment coord_cartesian aes theme_bw
 #' @importFrom png readPNG
 #' @importFrom grid rasterGrob unit
 #' @examples
