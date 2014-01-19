@@ -19,3 +19,6 @@ inst/video_data
 ^\.Rprofile
 inst/sandbox
 motion_path.html
+inst/example_plots/figure
+Density.html
+Density.Rmd

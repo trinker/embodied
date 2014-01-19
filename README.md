@@ -31,17 +31,24 @@ install_github(c("reports", "embodied"), "trinker")
 [Web Page](http://trinker.github.com/embodied/)      
 [Package PDF Help Manual](https://dl.dropbox.com/u/61803503/embodied.pdf)      
 
-## Example Output
-
-### Motion Path Example
-
-<img src="inst/sandbox/out.gif" width="50%">
-
-For the script used to create this animated .gif [click here](https://github.com/trinker/embodied/blob/master/inst/motion_path.md)
-
 ## Contact
 
 You are welcome to:
 * submit suggestions and bug-reports at: <https://github.com/trinker/embodied/issues>
 * send a pull request on: <https://github.com/trinker/embodied/>
 * compose a friendly e-mail to: <tyler.rinker@gmail.com>
+
+## Demonstrations
+
+### Motion Path Example
+
+<img src="inst/sandbox/out.gif" width="50%">
+
+For the script used to create this animated .gif [click here](https://github.com/trinker/embodied/blob/master/inst/example_plots/motion_path.md)
+
+### Discourse Density Example
+
+<img src="inst/sandbox/out.gif" width="50%">
+
+For the script used to create these discourse density plot [click here]()
+
