@@ -37,7 +37,7 @@ install_github(c("reports", "embodied"), "trinker")
 
 <img src="inst/sandbox/out.gif" width="50%">
 
-For the script used to create this animation .gif [click here](https://github.com/trinker/embodied/blob/master/inst/motion_path.md)
+For the script used to create this animated .gif [click here](https://github.com/trinker/embodied/blob/master/inst/motion_path.md)
 
 ## Contact
 
