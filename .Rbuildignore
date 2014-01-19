@@ -18,3 +18,4 @@ inst/video_data
 ^\.gitignore
 ^\.Rprofile
 inst/sandbox
+motion_path.html
