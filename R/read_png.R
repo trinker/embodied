@@ -19,6 +19,7 @@
 #' base
 read_png <- function(file, columns = 30, rows = columns){
     dat <- data.frame(x = c(0, columns), y = c(0, rows))
+	x <- y <- NULL
     ggplot(data = dat, aes(x=x, y=y)) + theme_bw()+
         annotation_custom(rasterGrob(readPNG(file), 0, 0, 1, 1, 
             just=c("left", "bottom")), 0, columns, 0, rows) +

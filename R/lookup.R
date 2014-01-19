@@ -118,3 +118,19 @@ function(terms, key.match, key.reassign=NULL, missing = NA) {
 #' @export
 #' @rdname lookup
 `%l%` <- function(terms, key.match) lookup(terms = terms, key.match = key.match)
+
+## HElper function
+list2df <- function(list.object, col1 = "X1", col2 = "X2") {
+
+    ## Make sure the vectors have names; if not use numbers
+    if (is.null(names(list.object))){
+        names(list.object) <- seq_along(list.object)
+    }
+
+    dat <- data.frame(x = unlist(list.object, ,FALSE), 
+        y = rep(names(list.object), sapply(list.object, length)), 
+        stringsAsFactors = FALSE)
+    colnames(dat) <- c(col1, col2)
+    dat
+}
+
