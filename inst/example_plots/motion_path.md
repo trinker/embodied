@@ -93,4 +93,4 @@ command("ffmpeg -r 5 -i out/img-%02d.png -c:v libx264 -r 30 -pix_fmt yuv420p out
 command("convert -delay 10 -loop 0 out/*.png out/out.gif") 
 ```
 
-![](sandbox/out.gif)
+![](inst/sandbox/out.gif)
