@@ -48,7 +48,7 @@ For the script used to create this animated .gif [click here](https://github.com
 
 ### Discourse Density Example
 
-<img src="inst/sandbox/out.gif" width="50%">
+<img src="inst/example_plots/figure/unnamed-chunk-6.png" width="57%">
 
-For the script used to create these discourse density plot [click here]()
+For the script used to create this discourse density plot [click here](https://github.com/trinker/embodied/blob/master/inst/example_plots/Density.md)
 
