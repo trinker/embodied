@@ -2,8 +2,8 @@
 \alias{plot_grid}
 \title{Title}
 \usage{
-plot_grid(file, text.color = "gray60", text.size = 3,
-  grid.color = text.color, grid.data = grid_calc())
+plot_grid(file, text.color = "gray60", text.size = 2,
+  grid.color = text.color, grid.size = 0.25, grid.data = grid_calc())
 }
 \arguments{
   \item{file}{The imput png file.}
@@ -14,6 +14,8 @@ plot_grid(file, text.color = "gray60", text.size = 3,
   \item{text.size}{The size of the coordinate labels.}
 
   \item{grid.color}{The color to make the grid.}
+
+  \item{grid.size}{The thickness of the grid lines.}
 
   \item{grid.data}{The output from the \code{grid_calc}
   function.}

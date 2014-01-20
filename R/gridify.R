@@ -22,6 +22,7 @@
 #' @param text.color The color to make the coordinate labels.
 #' @param text.size The size of the coordinate labels.
 #' @param grid.color The color to make the grid.
+#' @param grid.size The thickness of the grid lines.
 #' @param fps The number of image frames per second to output.  Generally the 
 #' fps used to desconstruct a video into images will be used to reconstruct the 
 #' images back to video.
@@ -32,11 +33,21 @@
 #' @param crop Character string of \href{http://www.ffmpeg.org/}{ffmpeg} code 
 #' used to crop the images (e.g. \code{"-vf crop=in_w-2*120"}).  See: 
 #' \url{http://www.ffmpeg.org/ffmpeg-filters.html#crop} for more.
+#' @param code.sheet A path to the embodied .csv coding sheet.
+#' @param duration An aptional duration of the original video, in seconds, if 
+#' .png files are passed to \code{path}.  This is used for \code{code.sheet}.  
+#' Note that \code{fps} should also be set.
+#' @param people The people whose coordinates will be logged.
 #' @param \ldots other arguments passed to \code{\link[grDevices]{png}}.
 #' @return Returns multiple png files with grid lines.
 #' @export
+#' @note Note that in order to properly view the time format column in the 
+#' \code{code.sheet}, the user may need to adjust the .csv display settings when 
+#' the .csv is opened.  Within some spreadsheet programs, changing the 
+#' \strong{format} to a \strong{custom} of \code{hh:mm:ss.00} enables proper 
+#' viewing.
 #' @importFrom parallel parLapply makeCluster detectCores stopCluster clusterEvalQ clusterExport
-#' @importFrom tools file_ext
+#' @importFrom tools file_ext file_path_sans_ext
 #' @importFrom ggplot2 ggtitle
 #' @seealso \code{\link[embodied]{plot_grid}}
 #' \code{\link[embodied]{mp4_to_png}}
@@ -45,22 +56,28 @@
 #' gridify(deb, "out")
 gridify <- function(path = ".", out = file.path(path, "out"), pdf = TRUE,
     columns = 30, rows = columns, parallel = TRUE, cores = detectCores()/2,
-    width = 6, height = 6, text.color = "gray60", text.size = 3, 
-    grid.color = text.color, fps = 4, size = "500x500", other.opts = "", 
-    crop = "", ...){
+    width = 6, height = 6, text.color = "gray60", text.size = 2, 
+    grid.size = .25, grid.color = text.color, fps = 4, size = "500x500", 
+    other.opts = "", crop = "", code.sheet = file.path(out, "embodied.csv"), 
+    duration = NULL, people = paste("person", 1:3, sep = "_"), ...){
 	
-	## Evaluate out because path may change and defualt uses path
+    ## Evaluate out because path may change and defualt uses path
     if(basename(path) == path && file_ext(path) =="mp4" && 
-    		dirname(out) == basename(path)) {
+        dirname(out) == basename(path)) {
+
         out <- file.path(getwd(), "raw", basename(out))
+
     }
+
+    path2 <- NULL
 	
-	## If path is mp4 generate png files
-	if(file_ext(path) == "mp4") {
+    ## If path is mp4 generate png files
+    if(file_ext(path) == "mp4") {
+        path2 <- path
         mp4_to_png(path, file.path(dirname(path), "raw"), fps = fps, 
-        	size = size, other.opts = other.opts, crop = crop)
+            size = size, other.opts = other.opts, crop = crop)
 		path <- file.path(dirname(path), "raw")
-	}
+    }
 	
     if (file.exists(file.path(path, "out"))) {
         message(paste0("\"", file.path(path, "out"), 
@@ -76,6 +93,7 @@ gridify <- function(path = ".", out = file.path(path, "out"), pdf = TRUE,
     folder(folder.name = out)
 
     fls <- dir(path)
+    imgnms <- file_path_sans_ext(basename(fls))
     fls <-file.path(path, fls)[file_ext(fls) == "png"]
     dat <- grid_calc(columns, rows)
 
@@ -86,16 +104,17 @@ gridify <- function(path = ".", out = file.path(path, "out"), pdf = TRUE,
             
             cl <- makeCluster(mc <- getOption("cl.cores", detectCores()/2))
             vars <- c("fls", "dat", "text.color", "grid.color", "ggtitle",
-                "plot_grid", "text.size")
+                "file_path_sans_ext", "plot_grid", "text.size")
             
             clusterExport(cl=cl, varlist=vars, envir = environment())
             
             imgs <- parLapply(cl, fls, function(x){
                 plot_grid(x, grid.data = dat, text.color = text.color, 
-                    text.size = text.size, grid.color = grid.color)+ 
-                    ggtitle(basename(x))
+                    text.size = text.size, grid.color = grid.color, 
+                    grid.size = grid.size)+ 
+                    ggtitle(file_path_sans_ext(basename(x)))
             })
-            
+
             stopCluster(cl)
             pdf(file.path(out, "gridified.pdf"), width=width, height=height, ...)
             invisible(print(imgs))
@@ -104,7 +123,8 @@ gridify <- function(path = ".", out = file.path(path, "out"), pdf = TRUE,
             pdf(file.path(out, "gridified.pdf"), width=width, height=height, ...)
             invisible(lapply(fls, function(x){
                 print(plot_grid(x, grid.data = dat, text.color = text.color, 
-                	text.size = text.size, grid.color = grid.color) + 
+                	text.size = text.size, grid.color = grid.color, 
+                  grid.size = grid.size) + 
                   ggtitle(basename(x)))
             }))
             dev.off()
@@ -115,14 +135,16 @@ gridify <- function(path = ".", out = file.path(path, "out"), pdf = TRUE,
             plot_fun <- function(x) png(x, width=width, height=height, ...)
             
             cl <- makeCluster(mc <- getOption("cl.cores", detectCores()/2))
-            vars <- c("fls", "plot_grid", "dat", "text.color", "grid.color", "plot_fun", "text.size")
+            vars <- c("fls", "plot_grid", "dat", "text.color", "grid.color", 
+                "plot_fun", "file_path_sans_ext", "text.size")
             
             clusterExport(cl=cl, varlist=vars, envir = environment())
             
             parLapply(cl, fls, function(x){
                 plot_fun(file.path(out, basename(x)))
                 print(plot_grid(x, grid.data = dat, text.color = text.color, 
-                    text.size = text.size, grid.color = grid.color))
+                    text.size = text.size, grid.color = grid.color, 
+                    grid.size = grid.size))
                 dev.off()
             })
             
@@ -131,11 +153,37 @@ gridify <- function(path = ".", out = file.path(path, "out"), pdf = TRUE,
             invisible(lapply(fls, function(x){
                 png(file.path(out, basename(x)), width=width, height=height, ...)
                 print(plot_grid(x, grid.data = dat, text.color = text.color, 
-                	text.size = text.size, grid.color = grid.color))
+                	text.size = text.size, grid.color = grid.color, 
+                  grid.size = grid.size))
                 dev.off()
             }))
         }
     }
+
+    if (!is.null(code.sheet)) {
+
+        if (is.null(path2) & is.null(duration)) {
+
+            times <- rep(NA, length(imgnms))
+   
+        } else {
+            if (is.null(path2) & !is.null(duration)) {
+                tot <- duration 
+            } else {
+                tot <- mp4_duration(path2)
+            }
+            part <- tot - floor(tot) 
+            vals <- seq(0, 1, by = 1/fps) 
+            difs <- vals - part
+            minval <- vals[difs >= 0][1]
+            maxtime <- ceiling(tot) + minval
+            times <- sec_to_hms(seq(0, maxtime, by = 1/fps))
+
+        }
+        write_embodied(id = imgnms, time = times[1:length(imgnms)], 
+            people = people, file = code.sheet)
+    }
+
     message(sprintf("Grid files plotted to:\n%s", out))
     invisible(out)	
 }

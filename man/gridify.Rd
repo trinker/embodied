@@ -5,8 +5,10 @@
 gridify(path = ".", out = file.path(path, "out"), pdf = TRUE,
   columns = 30, rows = columns, parallel = TRUE,
   cores = detectCores()/2, width = 6, height = 6, text.color = "gray60",
-  text.size = 3, grid.color = text.color, fps = 4, size = "500x500",
-  other.opts = "", crop = "", ...)
+  text.size = 2, grid.size = 0.25, grid.color = text.color, fps = 4,
+  size = "500x500", other.opts = "", crop = "",
+  code.sheet = file.path(out, "embodied.csv"), duration = NULL,
+  people = paste("person", 1:3, sep = "_"), ...)
 }
 \arguments{
   \item{path}{Path to the in directory with the .png files
@@ -44,6 +46,8 @@ gridify(path = ".", out = file.path(path, "out"), pdf = TRUE,
 
   \item{grid.color}{The color to make the grid.}
 
+  \item{grid.size}{The thickness of the grid lines.}
+
   \item{fps}{The number of image frames per second to
   output.  Generally the fps used to desconstruct a video
   into images will be used to reconstruct the images back
@@ -62,6 +66,17 @@ gridify(path = ".", out = file.path(path, "out"), pdf = TRUE,
   \url{http://www.ffmpeg.org/ffmpeg-filters.html#crop} for
   more.}
 
+  \item{code.sheet}{A path to the embodied .csv coding
+  sheet.}
+
+  \item{duration}{An aptional duration of the original
+  video, in seconds, if .png files are passed to
+  \code{path}.  This is used for \code{code.sheet}. Note
+  that \code{fps} should also be set.}
+
+  \item{people}{The people whose coordinates will be
+  logged.}
+
   \item{\ldots}{other arguments passed to
   \code{\link[grDevices]{png}}.}
 }
@@ -72,6 +87,14 @@ Returns multiple png files with grid lines.
 A wrapper function for \code{grid_calc} and
 \code{plot_grid} used to read in a directory of png files.
 Add grid lines.  Output to directory.
+}
+\note{
+Note that in order to properly view the time format column
+in the \code{code.sheet}, the user may need to adjust the
+.csv display settings when the .csv is opened.  Within some
+spreadsheet programs, changing the \strong{format} to a
+\strong{custom} of \code{hh:mm:ss.00} enables proper
+viewing.
 }
 \examples{
 deb <- system.file("extdata", package = "embodied")

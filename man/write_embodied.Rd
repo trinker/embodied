@@ -13,12 +13,17 @@ read_embodied(file, columns = 30, rows = columns)
   column in the csv coding sheet.}
 
   \item{time}{A vector of time stamps corresponding to the
-  each image id.}
+  each image id. Note that in order to properly view the
+  time format column the user may need to adjust the .csv
+  display settings when the .csv is opened.  Within some
+  spreadsheet programs, changing the \strong{format} to a
+  \strong{custom} of \code{hh:mm:ss.00} enables proper
+  viewing.}
 
   \item{people}{The people whose coordinates will be
   logged.}
 
-  \item{file}{A path to the embodied .csv.}
+  \item{file}{A path to the embodied .csv coding sheet.}
 
   \item{columns}{The number of columns (corresponds to
   \code{\link[embodied]{gridify}}).}

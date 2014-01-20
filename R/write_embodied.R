@@ -5,9 +5,13 @@
 #' 
 #' @param id The id of the image numbers (generates an id column in the csv 
 #' coding sheet.
-#' @param time A vector of time stamps corresponding to the each image id.
+#' @param time A vector of time stamps corresponding to the each image id. Note 
+#' that in order to properly view the time format column the user may need to 
+#' adjust the .csv display settings when the .csv is opened.  Within some 
+#' spreadsheet programs, changing the \strong{format} to a \strong{custom} of 
+#' \code{hh:mm:ss.00} enables proper viewing.
 #' @param people The people whose coordinates will be logged.
-#' @param file A path to the embodied .csv.
+#' @param file A path to the embodied .csv coding sheet.
 #' @note The \code{write_embodied}/\code{read_embodied} expects columns to be 
 #' named in a particular way.  Altering column names (i.e. the \code{id} and 
 #' \code{time} column names) may result in error.
@@ -22,6 +26,7 @@ write_embodied <- function(id, time, people = paste("person", 1:3, sep="_"),
     dat <- data.frame(id = id, time = time, 
         matrix(rep(NA, n * length(people)), nrow = n))
 
+	names(dat)[-c(1:2)] <- people
     write.csv(dat, file = file, row.names = FALSE, na = "")
 }
 
