@@ -35,14 +35,14 @@ Features: DPC Modules OpenMP
 Delegates: bzlib cairo freetype jbig jng jp2 jpeg lcms lqr pangocairo png ps rsvg tiff webp xml zlib
 ```
 
-## Steps to Plot Aniamted Paths
+## Steps to Plot Animated Paths
 
 ### We can now:  
 
 1. Read in the image(s) (set row and column numbers)    
-2. Crate a function (`pp`) that plots the poth (animates the sequence)    
+2. Create a function (`pp`) that plots the poth (animates the sequence)    
 3. Plot multiple .pngs files showing the paths    
-4. Stitch the multiple. pngs into a .mp4 or animiate .gif.     
+4. Stitch the multiple .pngs into a .mp4 or animated .gif.     
 
 ## Animated Path Script
 

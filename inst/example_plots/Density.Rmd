@@ -36,7 +36,7 @@ base +
     scale_alpha(range = c(0.00, 0.5), guide = FALSE) 
 ```
 
-### Adding Black Sized Word Count Points
+### Adding Black, Sized Word Count Points
 
 ```{r}
 base + 
@@ -79,4 +79,13 @@ base +
         colour=guide_legend(title="Person"),
         size=guide_legend(title="Word Count"))   
 ``` 
+
+### Density Lines Colored by Person
+
+```{r}
+base + 
+    geom_density2d(data = dat, aes(x=x, y=y, color=person),
+        bins=10, h=4, show_guide=FALSE) +
+    geom_point(data = dat, aes(size = wc, colour = person, x=x, y=y)) 
+```
 

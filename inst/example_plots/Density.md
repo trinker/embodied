@@ -55,7 +55,7 @@ base +
 ![plot of chunk unnamed-chunk-4](figure/unnamed-chunk-4.png) 
 
 
-### Adding Black Sized Word Count Points
+### Adding Black, Sized Word Count Points
 
 
 ```r
@@ -109,5 +109,18 @@ base +
 ```
 
 ![plot of chunk unnamed-chunk-7](figure/unnamed-chunk-7.png) 
+
+
+### Density Lines Colored by Person
+
+
+```r
+base + 
+    geom_density2d(data = dat, aes(x=x, y=y, color=person),
+        bins=10, h=4, show_guide=FALSE) +
+    geom_point(data = dat, aes(size = wc, colour = person, x=x, y=y)) 
+```
+
+![plot of chunk unnamed-chunk-8](figure/unnamed-chunk-8.png) 
 
 
