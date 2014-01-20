@@ -1,6 +1,7 @@
 export("%l%")
 export(command)
 export(convert_to_mp4)
+export(dir_png)
 export(grid_calc)
 export(grid_coord)
 export(gridify)
