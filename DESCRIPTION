@@ -11,10 +11,10 @@ Imports:
     chron,
     ggplot2 (>= 0.9.3.1),
     parallel,
-    png
+    png,
+    reshape2
 Suggests:
     animation,
-    reshape2,
     scales
 Description: Provides tools for working with video data related to motion and
     space.
