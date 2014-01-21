@@ -380,7 +380,7 @@ base +
 
 \subsection{Density Lines Colored by Person}
 
-<<dense6, eval=FALSE>>=
+<<dense6, eval=FALSE, echo=TRUE>>=
 base + 
     geom_density2d(data = dat, aes(x=x, y=y, color=person),
         bins=10, h=4, show_guide=FALSE) +

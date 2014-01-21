@@ -63,3 +63,15 @@ update_news()
 #==========================
 x <- c("BUG FIXES", "NEW FEATURES", "MINOR FEATURES", "IMPROVEMENTS", "CHANGES")
 cat(paste(x, collapse = "\n\n"), file="clipboard")
+
+#==========================
+# Compress pdf vignette
+#==========================
+tools::compactPDF("vignettes/embodied-package.pdf", gs_quality = "ebook")
+
+x <- "vignettes/figure"
+lapply(file.path(x, dir(x)), tools::compactPDF, gs_quality = "ebook")
+
+
+
+
