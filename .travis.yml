@@ -18,5 +18,8 @@ notifications:
 
 env:
   global:
-    - R_BUILD_ARGS="--resave-data=best" 
+    - R_BUILD_ARGS="--compact-vignettes" 
     - DISPLAY=:99.0
+    - R_CHECK_ARGS="--as-cran"
+    - BOOTSTRAP_LATEX="1"
+
