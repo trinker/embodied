@@ -30,7 +30,7 @@ install_github(c("reports", "embodied"), "trinker")
   
 [Web Page](http://trinker.github.com/embodied/)      
 [Package PDF Help Manual](https://dl.dropbox.com/u/61803503/embodied.pdf)      
-[Vignetee](https://copy.com/zuF1hWSih7V9zYwA/embodied-package.pdf?download=1)
+[Vignette](https://copy.com/zuF1hWSih7V9zYwA/embodied-package.pdf?download=1)
 
 ## Contact
 

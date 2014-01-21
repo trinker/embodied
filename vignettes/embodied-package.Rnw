@@ -59,7 +59,7 @@ The \textbf{embodied} package \citep{R-embodied} is designed work with video dat
 <<setup, include=FALSE, cache=FALSE>>=
 library(knitr); library(embodied)
 opts_chunk$set(fig.path='figure/minimal-', fig.align='center', fig.show='hold', 
-	tidy=FALSE, cach=FALSE)
+	tidy=FALSE, cache=FALSE)
 options(replace.assign=TRUE, width=90)
 pdf.options(useDingbats = TRUE)
 @
@@ -120,7 +120,6 @@ codesheet <- structure(list(id = structure(1:5, .Label = c("img-1", "img-2",
 ## library(xtable); xtable(codesheet)
 #x <- "C:/Users/trinker/Desktop/embodied/vignettes/figure"
 #lapply(file.path(x, dir(x)), tools::compactPDF, gs_quality = "ebook")
-
 @
 
 \begin{table}[ht]
@@ -164,12 +163,14 @@ command("ffmpeg --version")
 command("convert --version")
 @
 
-If you have command line access you will see something like:
+\noindent If you have command line access you will see something like:
 
-<<checkout, eval=FALSE>>=
-> command("ffmpeg --version")
-ffmpeg version N-59815-gb79bccb Copyright (c) 2000-2014 the FFmpeg developers
-  built on Jan 13 2014 22:01:47 with gcc 4.8.2 (GCC)
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+> \hlkwd{command}(\hlstr{"ffmpeg --version"})
+ffmpeg version N-59815-gb79bccb \hlkwd{Copyright} (c) 2000-2014 the FFmpeg developers
+  built on Jan 13 2014 22:01:47 with gcc \hlkwd{4.8.2} (GCC)
   configuration: --enable-gpl --enable-version3 --disable-w32threads --enable-avisynth --enable-bzlib --enable-fontconfig --enable-frei0r --enable-gnutls --enable-iconv --enable-libass --enable-libbluray --enable-libcaca --enable-libfreetype --enable-libgsm --enable-libilbc --enable-libmodplug --enable-libmp3lame --enable-libopencore-amrnb --enable-libopencore-amrwb --enable-libopenjpeg --enable-libopus --enable-librtmp --enable-libschroedinger --enable-libsoxr --enable-libspeex --enable-libtheora --enable-libtwolame --enable-libvidstab --enable-libvo-aacenc --enable-libvo-amrwbenc --enable-libvorbis --enable-libvpx --enable-libwavpack --enable-libx264 --enable-libxavs --enable-libxvid --enable-zlib
   libavutil      52. 62.100 / 52. 62.100
   libavcodec     55. 48.101 / 55. 48.101
@@ -180,12 +181,14 @@ ffmpeg version N-59815-gb79bccb Copyright (c) 2000-2014 the FFmpeg developers
   libswresample   0. 17.104 /  0. 17.104
   libpostproc    52.  3.100 / 52.  3.100
 
-> command("convert --version")
+> \hlkwd{command}(\hlstr{"convert --version"})
 Version: ImageMagick 6.8.8-2 Q16 x64 2014-01-09 http://www.imagemagick.org
-Copyright: Copyright (C) 1999-2014 ImageMagick Studio LLC
+Copyright: \hlkwd{Copyright} (C) 1999-2014 ImageMagick Studio LLC
 Features: DPC Modules OpenMP
 Delegates: bzlib cairo freetype jbig jng jp2 jpeg lcms lqr pangocairo png ps rsvg tiff webp xml zlib
-@
+\end{alltt}
+\end{kframe}
+\end{knitrout}
 
 \subsection{Steps to Plot Animated Paths}
 
