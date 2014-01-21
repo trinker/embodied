@@ -15,10 +15,12 @@ Imports:
     reshape2
 Suggests:
     animation,
+    knitr,
     scales
 Description: Provides tools for working with video data related to motion and
     space.
-SystemRequirements: FFmpeg (http://ffmpeg.org)
+SystemRequirements: FFmpeg (http://ffmpeg.org); ImageMagick (http://imagemagick.org)
+VignetteBuilder: knitr
 License: GPL-2
 URL: http://trinker.github.com/embodied/
 BugReports: http://github.com/trinker/embodied/issues

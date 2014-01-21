@@ -1,0 +1,404 @@
+%====================
+%  Document Class
+%====================
+\documentclass{article}
+%====================
+%  Packages
+%====================
+\usepackage{mathpazo}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{url}
+\usepackage[authoryear]{natbib}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{animate}
+\usepackage{setspace}
+\onehalfspacing
+%====================
+%  Custom Commands
+%====================
+\renewcommand{\sfdefault}{lmss}
+\renewcommand{\ttdefault}{lmtt}
+\newcommand\posscite[1]{\citeauthor{#1}'s (\citeyear{#1})} 
+\newcommand\poscite[1]{\citeauthor{#1}' (\citeyear{#1})}
+%====================
+%  Formatting
+%====================
+%\geometry{verbose,tmargin=2.5cm,bmargin=2.5cm,lmargin=2.5cm,rmargin=2.5cm}
+
+%====================
+%  Other
+%====================
+\makeatletter
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
+% \VignetteIndexEntry{An Introduction to knitr}
+% \VignetteEngine{knitr}
+
+\makeatother
+%===============================================================================
+\begin{document}
+
+\title{embodied Package}
+\author{Tyler W. Rinker}
+\date{\today}
+\maketitle
+
+\vspace{1cm}
+\begin{figure}[h!]
+  \centering
+    \includegraphics[width=4in]{../inst/embodied_logo/embodied.png}
+\end{figure}
+\vspace{1cm}
+
+The \textbf{embodied} package \citep{R-embodied} is designed work with video data.  \textbf{embodied} is named for the movement within education that understands human learning to be the intersection of body and brain.  This package interfaces with the \href{http://www.ffmpeg.org/ffmpeg.html}{FFmpeg} and \href{http://www.imagemagick.org/script/index.php}{ImageMagick} to convert videos to still images for manual coding.
+
+\textbf{embodied} was inspired by \posscite{roy2011} Ted Talk in which he used video data to demonstrate the intersection of dialogue and movement within space.  Later, \posscite{R-animation} package began to show that animated visualizations were within the grasp of the R user (see \href{http://trinkerrstuff.wordpress.com/2013/05/11/animations-understood-5/}{this} blog post).  The following documentation will demonstrate some of the uses of the \textbf{embodied} package.
+
+<<setup, include=FALSE, cache=FALSE>>=
+library(knitr); library(embodied)
+opts_chunk$set(fig.path='figure/minimal-', fig.align='center', fig.show='hold', 
+	tidy=FALSE, cach=FALSE)
+options(replace.assign=TRUE, width=90)
+pdf.options(useDingbats = TRUE)
+@
+
+
+\section{Major Functions}
+
+\hspace{.25cm} In essence the user is likely to want to:
+
+
+\begin{enumerate}\addtolength{\itemsep}{-0.5\baselineskip}
+  \item Convert a video to multiple still images
+  \item Add grid line to the images
+  \item Record the location(s) of participants over time
+  \item Read the data back into R
+  \item Analyze and plot the results
+\end{enumerate}
+
+\subsection{gridfy}
+
+Use of the \href{http://trinker.github.io/embodied/gridify.html}{\textbf{gridify}} function can accomplish The first 2 steps.  Ideally, the suer will supply a .mp4 file to the function, though \textbf{gridify} also takes a directory of .png files as well.  The function utilizes ggplot2 \citep{R-ggplot2} to output a single, scrollable .pdf or a directory of .png image files with grids and labels that the user can then use to record the movement (step 3) of participants across space and time.  These motions are recorded in the code sheet .csv that is printed out.
+
+The following code chunk demonstrates the usage:
+
+<<gridify, eval=FALSE>>=
+library(embodied)
+deb <- system.file("extdata", package = "embodied")
+gridify(deb, "out")
+@
+
+\noindent Which in turn produces images with grid lines as follows:
+
+<<plotgrid, eval=FALSE, echo=FALSE, include=2, dev='pdf', fig.height=3.25, fig.width=5>>=
+deb <- system.file("extdata/deb_roy.png", package = "embodied")
+plot_grid(deb, grid.data = grid_calc(15), text.size=3.5)
+@
+
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[height=3in]{figure/minimal-plotgrid.pdf}
+\end{center}
+\end{figure}
+
+
+\subsection{Code Sheet}
+
+A code sheet is also printed out in which he user can input the label locations of the participants across time.
+
+<<codesheet, eval=FALSE, echo=FALSE, include=FALSE>>=
+codesheet <- structure(list(id = structure(1:5, .Label = c("img-1", "img-2", 
+    "img-3", "img-4", "img-5"), class = "factor"), time = structure(1:5, .Label = c("00:01.00", 
+    "00:02.00", "00:03.00", "00:04.00", "00:05.00"), class = "factor"), 
+        person_1 = structure(c(1L, 1L, 1L, 1L, 1L), .Label = "", class = "factor"), 
+        person_2 = structure(c(1L, 1L, 1L, 1L, 1L), .Label = "", class = "factor"), 
+        person_3 = c("", "", "", "", "")), .Names = c("id", "time", 
+    "person_1", "person_2", "person_3"), row.names = c(NA, -5L), class = "data.frame")
+## library(xtable); xtable(codesheet)
+#x <- "C:/Users/trinker/Desktop/embodied/vignettes/figure"
+#lapply(file.path(x, dir(x)), tools::compactPDF, gs_quality = "ebook")
+
+@
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{|l|l|l|l|l|}
+  \hline
+ id & time & person\_1 & person\_2 & person\_3 \\ 
+  \hline
+  img-1 & 00:01.00 & \emph{\textbf{h5}} & \emph{\textbf{p7}} & \emph{\textbf{h6}} \\  \hline
+  img-2 & 00:02.00 & \emph{\textbf{i5}} &  &  \\  \hline
+  img-3 & 00:03.00 & \emph{\textbf{i5}} &  &  \\  \hline
+  img-4 & 00:04.00 &  &  &  \\  \hline
+  img-5 & 00:05.00 &  &  &  \\  \hline
+  . & . &  &  &  \\  \hline
+  . & . &  &  &  \\  \hline  
+  . & . &  &  &  \\  \hline    
+  img-n & 01:15.75 &  &  &  \\ 
+   \hline
+\end{tabular}
+\end{table}
+
+\subsection{Reading in Code Sheet}
+
+Step 4 can be addressed with the \href{http://trinker.github.io/embodied/write_embodied.html}{\textbf{read\_embodied}} function.  The data will be read into R and converted to long format.  The user should specify the number of \texttt{columns} and \texttt{rows} if a value other than \texttt{30} was used in \texttt{gridify}.  The user can utilize the following commands to read in the code sheet:
+
+<<read_emb, eval=FALSE>>=
+dat <- read_embodied("foo.csv", columns = 30, rows = columns)
+@
+
+\section{Motion Paths}
+
+The following short script allows us to generate a motion path animated .mp4 and .gif.  I have chosen to access the tools of \href{http://www.ffmpeg.org/ffmpeg.html}{FFmpeg} and \href{http://www.imagemagick.org/script/index.php}{ImageMagick} directly via the `command` function; however, one could easily use the functions from Yiui \citep{R-animation} animation package.
+
+\subsection{Check ffmpeg/convert Access}
+
+First you may want to test if [ffmpeg](http://www.ffmpeg.org/ffmpeg.html) and [ImageMagick](http://www.imagemagick.org/script/index.php) are available and on your path:
+
+<<check, eval=FALSE>>=
+library(embodied)
+command("ffmpeg --version")
+command("convert --version")
+@
+
+If you have command line access you will see something like:
+
+<<checkout, eval=FALSE>>=
+> command("ffmpeg --version")
+ffmpeg version N-59815-gb79bccb Copyright (c) 2000-2014 the FFmpeg developers
+  built on Jan 13 2014 22:01:47 with gcc 4.8.2 (GCC)
+  configuration: --enable-gpl --enable-version3 --disable-w32threads --enable-avisynth --enable-bzlib --enable-fontconfig --enable-frei0r --enable-gnutls --enable-iconv --enable-libass --enable-libbluray --enable-libcaca --enable-libfreetype --enable-libgsm --enable-libilbc --enable-libmodplug --enable-libmp3lame --enable-libopencore-amrnb --enable-libopencore-amrwb --enable-libopenjpeg --enable-libopus --enable-librtmp --enable-libschroedinger --enable-libsoxr --enable-libspeex --enable-libtheora --enable-libtwolame --enable-libvidstab --enable-libvo-aacenc --enable-libvo-amrwbenc --enable-libvorbis --enable-libvpx --enable-libwavpack --enable-libx264 --enable-libxavs --enable-libxvid --enable-zlib
+  libavutil      52. 62.100 / 52. 62.100
+  libavcodec     55. 48.101 / 55. 48.101
+  libavformat    55. 23.103 / 55. 23.103
+  libavdevice    55.  5.102 / 55.  5.102
+  libavfilter     4.  1.100 /  4.  1.100
+  libswscale      2.  5.101 /  2.  5.101
+  libswresample   0. 17.104 /  0. 17.104
+  libpostproc    52.  3.100 / 52.  3.100
+
+> command("convert --version")
+Version: ImageMagick 6.8.8-2 Q16 x64 2014-01-09 http://www.imagemagick.org
+Copyright: Copyright (C) 1999-2014 ImageMagick Studio LLC
+Features: DPC Modules OpenMP
+Delegates: bzlib cairo freetype jbig jng jp2 jpeg lcms lqr pangocairo png ps rsvg tiff webp xml zlib
+@
+
+\subsection{Steps to Plot Animated Paths}
+
+We can now:
+
+\begin{enumerate}\addtolength{\itemsep}{-0.5\baselineskip}
+  \item Read in the image(s) (set row and column numbers)
+  \item Create a function (\texttt{pp}) that plots the poth (animates the sequence)
+  \item Plot multiple .pngs files showing the paths
+  \item Stitch the multiple .pngs into a .mp4 or animated .gif.
+\end{enumerate}
+  
+
+\subsection{Animated Path Script}
+
+<<ppfun, eval=FALSE>>=
+library(embodied); library(grid); library(ggplot2)
+
+dat <- grid_coord(deb_long, 20)
+file <- system.file("extdata/deb_roy.png", package = "embodied")
+base <- read_png(file, 20)
+dir.create("out")
+
+ids <- as.character(unique(dat[, "id"]))
+pp <- function() {
+    for (i in 1:length(ids)) {
+       png(sprintf("out/img-%s.png", pad(1:length(ids))[i]), width=450, height = 400)
+        if (i == 1) {
+            print(base + 
+                geom_point(
+                    data = dat[dat[, "id"] %in% ids[1:i], ], 
+                    aes(group = person, 
+                        colour=person), 
+                    size = 2) + 
+                theme(legend.position="bottom", 
+                    plot.margin=unit(c(0,0,1,-1), "cm"), 
+                    legend.title=element_blank(), 
+                    axis.title.x = element_blank())) 
+        } else {
+            print(base + 
+                geom_point(data = dat[dat[, "id"] %in% ids[i], ], 
+                    aes(group = person, 
+                        colour=person), 
+                    size = 2) +
+                geom_path(data = dat[dat[, "id"] %in% ids[1:i], ], 
+                    aes(group = person, colour=person)) + 
+                theme(legend.position="bottom", 
+                    plot.margin=unit(c(0,0,1,-1), "cm"), 
+                    legend.title=element_blank(), 
+                    axis.title.x = element_blank())) 
+        }
+       dev.off()
+    }
+}
+
+pp()
+
+command("ffmpeg -r 5 -i out/img-%02d.png -c:v libx264 -r 30 -pix_fmt yuv420p out/out.mp4")
+command("convert -delay 10 -loop 0 out/*.png out/out.gif") 
+@
+
+\begin{figure}[H]
+\begin{center}
+%\animategraphics[controls,autoplay,loop,width=\linewidth]{4}{Rplot}{}{}
+\includegraphics[width=5in]{Rplot2.pdf}
+\end{center}
+\end{figure}
+
+
+\section{Dialogue Density Plots}
+
+The following short script allows us to generate a series dialogue density plot using the ggplot2 \citep{R-ggplot2} and the \textbf{embodied} \citep{R-embodied} packages.
+
+\subsection{Reading in Image and Preparing Data}
+
+<<prep, comment=NA>>=
+library(embodied); library(ggplot2); library(grid)
+file <- system.file("extdata/deb_roy.png", package = "embodied")
+base <- read_png(file, columns=20)
+dat <- deb_complete[rep(1:nrow(deb_complete), deb_complete$wc), ]
+head(dat)
+@
+
+\newpage
+
+\subsection{Basic Design}
+
+<<dense1, eval=FALSE>>=
+base + 
+    stat_density2d(data = dat, 
+        aes(x=x, y=y, alpha=..level.., fill=..level..), size=2, bins=10, 
+    	geom="polygon") + 
+    scale_alpha(range = c(0.00, 0.5), guide = FALSE) 
+@    
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=6in]{figure/minimal-dense1.pdf}
+\end{center}
+\end{figure}
+
+\newpage
+
+\subsection{Change Density Colour}
+
+<<dense2, eval=FALSE>>=
+base + 
+    stat_density2d(data = dat, 
+        aes(x=x, y=y, alpha=..level.., fill=..level..), size=2, bins=10, 
+    	geom="polygon") + 
+    scale_fill_gradient(low = "yellow", high = "red") +
+    scale_alpha(range = c(0.00, 0.5), guide = FALSE) 
+@    
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=6in]{figure/minimal-dense2.pdf}
+\end{center}
+\end{figure}
+
+\newpage
+
+\subsection{Adding Black, Sized Word Count Points}
+
+<<dense3, eval=FALSE>>=
+base + 
+    stat_density2d(data = dat, 
+        aes(x=x, y=y, alpha=..level.., fill=..level..), size=2, bins=10, 
+    	geom="polygon") + 
+    scale_fill_gradient(low = "yellow", high = "red", name = "Level") +
+    scale_alpha(range = c(0.00, 0.5), guide = FALSE) +
+    geom_point(data = dat, aes(size = wc, x=x, y=y), colour="black") 
+@    
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=6in]{figure/minimal-dense3.pdf}
+\end{center}
+\end{figure}
+
+\newpage
+
+\subsection{Color Word Count Points by Person}
+
+<<dense4, eval=FALSE>>=
+base + 
+    stat_density2d(data = dat, 
+        aes(x=x, y=y, alpha=..level.., fill=..level..), size=2, bins=10, 
+    	geom="polygon") + 
+    scale_fill_gradient(low = "yellow", high = "red", name = "Level") +
+    scale_alpha(range = c(0.00, 0.5), guide = FALSE) +
+    geom_point(data = dat, aes(size = wc, colour = person, x=x, y=y)) +
+    guides(alpha=FALSE, 
+        colour=guide_legend(title="Person"),
+        size=guide_legend(title="Word Count"))   
+@    
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=6in]{figure/minimal-dense4.pdf}
+\end{center}
+\end{figure}
+
+\newpage
+
+\subsection{Add Black Desnity Curves and Point Outlines}
+
+<<dense5, eval=FALSE>>=
+base + 
+    stat_density2d(data = dat, 
+        aes(x=x, y=y, alpha=..level.., fill=..level..), size=2, bins=10, 
+        geom="polygon") + 
+    scale_fill_gradient(low = "yellow", high = "red", name = "Level") +
+    scale_alpha(range = c(0.00, 0.5), guide = FALSE) +
+    geom_density2d(data = dat, aes(x=x, y=y), colour="black", bins=10, 
+        show_guide=FALSE) +
+    geom_point(data = dat, aes(size = wc, colour = person, x=x, y=y)) +
+    geom_point(data = dat, aes(size = wc, colour = person, x=x, y=y), 
+        shape = 1, colour = "black", guide=FALSE) +
+    guides(alpha=FALSE, 
+        colour=guide_legend(title="Person"),
+        size=guide_legend(title="Word Count"))   
+@    
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=6in, height=4in]{figure/minimal-dense5.pdf}
+\end{center}
+\end{figure}
+
+\newpage
+
+\subsection{Density Lines Colored by Person}
+
+<<dense6, eval=FALSE>>=
+base + 
+    geom_density2d(data = dat, aes(x=x, y=y, color=person),
+        bins=10, h=4, show_guide=FALSE) +
+    geom_point(data = dat, aes(size = wc, colour = person, x=x, y=y)) 
+@    
+
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=6in]{figure/minimal-dense6.pdf}
+\end{center}
+\end{figure}
+
+\newpage
+
+
+\bibliographystyle{jss}
+\bibliography{embodied}
+
+
+\end{document}
+
