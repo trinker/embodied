@@ -17,14 +17,15 @@ library(highlight); library(qdap); library(staticdocs); library(acc.roxygen2)
 #right now examples are FALSE in the future this will be true
 #in the future qdap2 will be the go to source
 build_package(package="C:/Users/trinker/GitHub/embodied", 
-    base_path="C:/Users/trinker/Desktop/embodied/", examples = TRUE)
+    base_path="C:/Users/trinker/Desktop/embodied/", examples = FALSE)
 
 #STEP 2: reshape index
 path <- "C:/Users/trinker/Desktop/embodied"
 path2 <- paste0(path, "/index.html")
 rdme <- "C:/Users/trinker/GitHub/embodied/inst/extra_statdoc/readme.R"
 
-expand_statdoc(path2, to.icon = c("png_to_mp4", "n_img"), readme = rdme)
+expand_statdoc(path2, to.icon = c("png_to_mp4", "n_img", "%l%", "png_to_mp4", 
+	"read_embodied"), readme = rdme)
 
 
 #STEP 3: move to trinker.guthub

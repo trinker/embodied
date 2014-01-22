@@ -21,16 +21,23 @@ list(
     sd_section("Data Handling",
       "Functions to aid recording, managing, and reshaping spatial data.",
       c(
+      	"grid_coord",
+      	"lookup",
+      	"write_embodied"
       )
     ),
     sd_section("Plotting",
       "Functions to plot spatial data.",
       c(
+      	"read_png"
       )
     ),
     sd_section("embodied Tools",
       "Generic Tools (Functions) Used Within the embodied Package.",
       c(
+      	"command",
+      	"dir_png",
+      	"sec_to_hms"
       )
     )  	
 ))
