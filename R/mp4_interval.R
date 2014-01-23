@@ -57,4 +57,5 @@ mp4_interval <- function(path, out = file.path(dirname(path), "interval.mp4"),
     }
     fun(ffmpeg)
     message(sprintf("Interval video in:\n%s", out))
+    invisible(out)
 }
