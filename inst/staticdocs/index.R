@@ -15,7 +15,8 @@ list(
       c(
         "grid_calc",
         "gridify",
-        "plot_grid"
+        "plot_grid",
+      	"resize"
       )
     ),         
     sd_section("Data Handling",
