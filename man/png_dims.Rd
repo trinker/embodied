@@ -1,8 +1,11 @@
 \name{png_dims}
 \alias{png_dims}
+\alias{size_ratio}
 \title{.png Sizing}
 \usage{
 png_dims(path)
+
+size_ratio(width.a, height.a, width.b, height.b, path = NULL)
 }
 \arguments{
   \item{path}{Path to the in .png file.}
@@ -22,6 +25,9 @@ png_dims(path)
 \description{
 \code{png_dims} - Reports the width and height of a .png
 file.
+
+\code{size_ratio} - Gives either the new width or height
+given the other and the old width and height.
 }
 \examples{
 \dontrun{

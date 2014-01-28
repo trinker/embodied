@@ -58,7 +58,7 @@ png_dims <- function(path) {
 #' the old width and height.
 #' 
 #' @export
-#' @rdname mp4_duration
+#' @rdname png_dims
 size_ratio <- function(width.a, height.a, width.b, height.b, path = NULL) {
   
     if (!is.null(path)) {
