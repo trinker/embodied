@@ -1,11 +1,14 @@
 \name{mp4_duration}
 \alias{mp4_duration}
 \alias{n_img}
+\alias{size_ratio}
 \title{Video Duration}
 \usage{
 mp4_duration(path)
 
 n_img(path, fps)
+
+size_ratio(width.a, height.a, width.b, height.b, path = NULL)
 }
 \arguments{
   \item{path}{Path to the in .mp4 file.}
@@ -26,6 +29,9 @@ seconds.
 
 \code{n_img} - Reports the approximate number of images
 based on guration and frames per second.
+
+\code{size_ratio} - Gives either the new width or height
+given the other and the old width and height.
 }
 \examples{
 \dontrun{

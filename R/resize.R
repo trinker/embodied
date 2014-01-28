@@ -9,9 +9,11 @@
 #' @return Returns resized media (.png, .avi, etc.).
 #' @export
 #' @examples
+#' \dontrun{
 #' file <- system.file("extdata/deb_roy.png", package = "embodied")
 #' resize(file, out = "test.png")
-resize <- function(path, width = 320, height = 240, 
+#' }
+resize <- function(path, width = 320, height = size_ratio(width, , path = path), 
     out = file.path(dirname(path), paste0("resized_", basename(path)))){
 
     ## Detect OS and use shell on Windows or system else
