@@ -2,7 +2,7 @@
 \alias{resize}
 \title{Resize Media}
 \usage{
-resize(path, width = 320, height = size_ratio(width, , path = path),
+resize(path, width = 320, height = size_ratio(width, path = path),
   out = file.path(dirname(path), paste0("resized_", basename(path))))
 }
 \arguments{

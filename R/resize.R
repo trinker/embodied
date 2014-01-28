@@ -13,7 +13,7 @@
 #' file <- system.file("extdata/deb_roy.png", package = "embodied")
 #' resize(file, out = "test.png")
 #' }
-resize <- function(path, width = 320, height = size_ratio(width, , path = path), 
+resize <- function(path, width = 320, height = size_ratio(width, path = path), 
     out = file.path(dirname(path), paste0("resized_", basename(path)))){
 
     ## Detect OS and use shell on Windows or system else
@@ -30,7 +30,7 @@ resize <- function(path, width = 320, height = size_ratio(width, , path = path),
     }
 
     ffmpeg <- sprintf("ffmpeg -i %s -vf scale=%s:%s %s", 
-        shQuote(path), width, width, shQuote(out))
+        shQuote(path), width, height, shQuote(out))
 
     fun(ffmpeg)
     message(sprintf("Resized media in:\n%s", out))
