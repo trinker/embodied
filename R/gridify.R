@@ -66,7 +66,7 @@ gridify <- function(path = ".", out = file.path(path, "out"), pdf = TRUE,
     width = 6, height = 6, text.color = "gray60", text.size = 2, 
     grid.size = .25, grid.color = text.color, fps = 4, size = "500x500", 
     other.opts = "", crop = "", code.sheet = file.path(out, "embodied.csv"), 
-    duration = NULL, people = paste("person", 1:3, sep = "_"), clean = TRUE, 
+    duration = NULL, people = paste("person", 1:3, sep = "_"), clean = FALSE, 
 	...){
 	
     ## Evaluate out because path may change and defualt uses path

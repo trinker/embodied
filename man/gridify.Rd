@@ -8,7 +8,7 @@ gridify(path = ".", out = file.path(path, "out"), pdf = TRUE,
   text.size = 2, grid.size = 0.25, grid.color = text.color, fps = 4,
   size = "500x500", other.opts = "", crop = "",
   code.sheet = file.path(out, "embodied.csv"), duration = NULL,
-  people = paste("person", 1:3, sep = "_"), clean = TRUE, ...)
+  people = paste("person", 1:3, sep = "_"), clean = FALSE, ...)
 }
 \arguments{
   \item{path}{Path to the in directory with the .png files
@@ -18,7 +18,9 @@ gridify(path = ".", out = file.path(path, "out"), pdf = TRUE,
 
   \item{pdf}{logical.  If \code{TRUE} a single .pdf
   (\file{./raw/gridified.png}) is generated.  This enables
-  zooming and a single scrollable file.}
+  zooming and a single scrollable file.
+  \href{http://www.ghostscript.com/}{ghostscript} must be
+  installed and on your path.}
 
   \item{columns}{The number of grid columns.}
 
