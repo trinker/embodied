@@ -1,7 +1,8 @@
 #' Add Grids to Multiple png
 #' 
-#' A wrapper function for \code{grid_calc} and \code{plot_grid} used to read in 
-#' a directory of png files.  Add grid lines.  Output to directory.
+#' \code{gridify} - A wrapper function for \code{grid_calc} and \code{plot_grid} 
+#' used to read in a directory of png files.  Add grid lines.  Output to 
+#' directory.
 #' 
 #' @param path Path to the in directory with the .png files or a single .mp4 
 #' file.
@@ -44,23 +45,58 @@
 #' with sequence of images will be removed after 
 #' \href{http://www.ghostscript.com/}{Gohstscript} integration.
 #' @param \ldots other arguments passed to \code{\link[grDevices]{png}}.
-#' @return Returns multiple png files with grid lines.
+#' @return Returns multiple files with grid lines.
 #' @export
 #' @note Note that in order to properly view the time format column in the 
 #' \code{code.sheet}, the user may need to adjust the .csv display settings when 
 #' the .csv is opened.  Within some spreadsheet programs, changing the 
 #' \strong{format} to a \strong{custom} of \code{hh:mm:ss.00} enables proper 
 #' viewing.
-#' @reference \url{http://trinkerrstuff.wordpress.com/2012/10/08/splitting-and-combining-r-pdf-visuals/}
-#' @author Ananda Mahto and Tyler Rinker <tyler.rinker@@gmail.com>.
+#' @section Considerations: Larger mp4 files may cause errors or unexpected 
+#' hangups due to extended processig time and large file sizes.  The user may 
+#' want to consider breaking the job into smaller subcomponents and using 
+#' elementary, non-wrapper functions including \code{gridify_pdf}).  See the 
+#' \code{Example} section for an example workflow utilizing this approach.
+#' @rdname gridify
 #' @importFrom parallel parLapply makeCluster detectCores stopCluster clusterEvalQ clusterExport
 #' @importFrom tools file_ext file_path_sans_ext
 #' @importFrom ggplot2 ggtitle
-#' @seealso \code{\link[embodied]{plot_grid}}
+#' @seealso \code{\link[embodied]{plot_grid}},
 #' \code{\link[embodied]{mp4_to_png}}
 #' @examples
+#' \dontrun{
 #' deb <- system.file("extdata", package = "embodied")
 #' gridify(deb, "out")
+#' 
+#' #=============================#
+#' # AN APPROACH FOR LARGER JOBS #
+#' #=============================#
+#' 
+#' ## Create png files from .mp4
+#' loc <- "foo.mp4"
+#' fps <- 4
+#' x <- mp4_to_png(loc, fps = fps)
+#' 
+#' ## Generate fridied pdfs from
+#' y <- folder(folder.name=file.path(x, "out"))
+#' imgs <- dir(x)[grep("image-", dir(x))]
+#' bins <- binify(file.path(x, imgs))
+#' pdfs <- file.path(y, "pdfs")
+#' lapply(bins, gridify_pdf, out=pdfs)
+#' 
+#' ## Merge PDFs, compact PDF, clean up
+#' z <- merge_pdf(file.path(pdfs, dir(pdfs)), file.path(y, "gridify.pdf"))
+#' library(tools)
+#' compactPDF(z)
+#' delete(pdfs)
+#' 
+#' ## Code sheet
+#' write_embodied(
+#'     id = file_path_sans_ext(imgs), 
+#'     time = mp4_to_times(loc, fps = fps)[seq_along(imgs)], 
+#'     file = file.path(y, "coding.csv")
+#' )
+#' }
 gridify <- function(path = ".", out = file.path(path, "out"), pdf = TRUE,
     columns = 30, rows = columns, parallel = TRUE, cores = detectCores()/2,
     width = 6, height = 6, text.color = "gray60", text.size = 2, 
@@ -195,10 +231,65 @@ gridify <- function(path = ".", out = file.path(path, "out"), pdf = TRUE,
             times <- sec_to_hms(seq(0, maxtime, by = 1/fps))
 
         }
+        imgnms <- imgnms[grep("image-", imgnms)]
         write_embodied(id = imgnms, time = times[1:length(imgnms)], 
             people = people, file = code.sheet)
     }
 
     message(sprintf("Grid files plotted to:\n%s", out))
     invisible(out)	
+}
+
+
+#' Add Grids to Multiple png
+#' 
+#' \code{gridify_pdf} - A lighter weight version of \code{gridify} intended to
+#' be used as a part of the workflow for for larger jobs (though restricted to 
+#' PDF file output).  
+#' 
+#' @param pngs A vector of paths to multiple png files. 
+#' @export
+#' @rdname gridify
+gridify_pdf <- function (pngs, out = "out/pdf", 
+    columns = 30, rows = columns, parallel = TRUE, cores = detectCores()/2, 
+    width = 6, height = 6, text.color = "gray60", text.size = 2, 
+    grid.size = 0.25, grid.color = text.color, fps = 4, ...) {
+
+    if (!file.exists(out)) {
+        folder(folder.name = out)
+    }
+
+    imgnms <- file_path_sans_ext(basename(pngs))
+
+    dat <- grid_calc(columns, rows)
+
+    if (parallel && cores > 1) {
+        plot_fun <- function(x) pdf(x, width = width, height = height, 
+            ...)
+        cl <- makeCluster(mc <- getOption("cl.cores", detectCores()/2))
+        vars <- c("pngs", "dat", "text.color", "grid.color", 
+            "ggtitle", "file_path_sans_ext", "plot_grid", 
+            "text.size", "plot_fun")
+        clusterExport(cl = cl, varlist = vars, envir = environment())
+        parLapply(cl, pngs, function(x) {
+            plot_fun(file.path(out, gsub("\\.png", 
+              "\\.pdf", basename(x))))
+            print(plot_grid(x, grid.data = dat, text.color = text.color, 
+              text.size = text.size, grid.color = grid.color, 
+              grid.size = grid.size) + ggtitle(file_path_sans_ext(basename(x))))
+            dev.off()
+        })
+    } else {
+        invisible(lapply(pngs, function(x) {
+            pdf(file.path(out, gsub("\\.png", "\\.pdf", 
+              basename(x))))
+            print(plot_grid(x, grid.data = dat, text.color = text.color, 
+              text.size = text.size, grid.color = grid.color, 
+              grid.size = grid.size) + ggtitle(basename(x)))
+            dev.off()
+        }))
+    }
+
+    message(sprintf("Grid files plotted to:\n%s", out))
+    invisible(out)
 }

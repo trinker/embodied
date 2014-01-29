@@ -3,7 +3,8 @@
 #' \code{mp4_duration} - Reports the length of a video in seconds.
 #' 
 #' @param path Path to the in .mp4 file.
-#' @return A numeric value giving length of video in seconds.
+#' @return \code{mp4_duration} - A numeric value giving length of video in 
+#' seconds.
 #' @keywords duration
 #' @export
 #' @rdname mp4_duration
@@ -11,6 +12,7 @@
 #' \dontrun{
 #' mp4_duration("foo.mp4")
 #' n_img("foo.mp4", 4)
+#' mp4_to_times("foo.mp4", 4)
 #' }
 mp4_duration <- function(path) {
 
@@ -48,11 +50,30 @@ mp4_duration <- function(path) {
 #' @param fps The number of image frames per second to output.  Generally the 
 #' fps used to desconstruct a video into images will be used to reconstruct the 
 #' images back to video.
-#' @return A numeric value giving length of video in seconds.
+#' @return \code{n_img} - A numeric value giving the number of images created 
+#' from the video.
 #' @export
 #' @rdname mp4_duration
 n_img <- function(path, fps) {
     ceiling(fps * mp4_duration(path))
 }
 
+#' Video Duration
+#' 
+#' \code{mp4_to_times} - Generate a sequence of times corresponding to 
+#' \code{fps} and video duration.
+#' 
+#' @return \code{mp4_to_times} - A sequence of times corresponding to 
+#' \code{fps} and video duration
+#' @export
+#' @rdname mp4_duration
+mp4_to_times <- function(path, fps = 4) {
+    tot <- mp4_duration(path)
+    part <- tot - floor(tot)
+    vals <- seq(0, 1, by = 1/fps)
+    difs <- vals - part
+    minval <- vals[difs >= 0][1]
+    maxtime <- ceiling(tot) + minval
+    sec_to_hms(seq(0, maxtime, by = 1/fps))
+}
 

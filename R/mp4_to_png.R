@@ -74,6 +74,7 @@ mp4_to_png <- function(path, out = file.path(dirname(path), "raw"),
     }
     fun(ffmpeg)
     message(sprintf(".png images in:\n%s", out))
+    invisible(out)	
 }
 
 

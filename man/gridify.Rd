@@ -1,5 +1,6 @@
 \name{gridify}
 \alias{gridify}
+\alias{gridify_pdf}
 \title{Add Grids to Multiple png}
 \usage{
 gridify(path = ".", out = file.path(path, "out"), pdf = TRUE,
@@ -9,6 +10,11 @@ gridify(path = ".", out = file.path(path, "out"), pdf = TRUE,
   size = "500x500", other.opts = "", crop = "",
   code.sheet = file.path(out, "embodied.csv"), duration = NULL,
   people = paste("person", 1:3, sep = "_"), clean = FALSE, ...)
+
+gridify_pdf(pngs, out = "out/pdf", columns = 30, rows = columns,
+  parallel = TRUE, cores = detectCores()/2, width = 6, height = 6,
+  text.color = "gray60", text.size = 2, grid.size = 0.25,
+  grid.color = text.color, fps = 4, ...)
 }
 \arguments{
   \item{path}{Path to the in directory with the .png files
@@ -87,14 +93,21 @@ gridify(path = ".", out = file.path(path, "out"), pdf = TRUE,
 
   \item{\ldots}{other arguments passed to
   \code{\link[grDevices]{png}}.}
+
+  \item{pngs}{A vector of paths to multiple png files.}
 }
 \value{
-Returns multiple png files with grid lines.
+Returns multiple files with grid lines.
 }
 \description{
-A wrapper function for \code{grid_calc} and
-\code{plot_grid} used to read in a directory of png files.
-Add grid lines.  Output to directory.
+\code{gridify} - A wrapper function for \code{grid_calc}
+and \code{plot_grid} used to read in a directory of png
+files.  Add grid lines.  Output to directory.
+
+\code{gridify_pdf} - A lighter weight version of
+\code{gridify} intended to be used as a part of the
+workflow for for larger jobs (though restricted to PDF file
+output).
 }
 \note{
 Note that in order to properly view the time format column
@@ -104,15 +117,51 @@ spreadsheet programs, changing the \strong{format} to a
 \strong{custom} of \code{hh:mm:ss.00} enables proper
 viewing.
 }
+\section{Considerations}{
+  Larger mp4 files may cause errors or unexpected hangups
+  due to extended processig time and large file sizes.  The
+  user may want to consider breaking the job into smaller
+  subcomponents and using elementary, non-wrapper functions
+  including \code{gridify_pdf}).  See the \code{Example}
+  section for an example workflow utilizing this approach.
+}
 \examples{
+\dontrun{
 deb <- system.file("extdata", package = "embodied")
 gridify(deb, "out")
+
+#=============================#
+# AN APPROACH FOR LARGER JOBS #
+#=============================#
+
+## Create png files from .mp4
+loc <- "foo.mp4"
+fps <- 4
+x <- mp4_to_png(loc, fps = fps)
+
+## Generate fridied pdfs from
+y <- folder(folder.name=file.path(x, "out"))
+imgs <- dir(x)[grep("image-", dir(x))]
+bins <- binify(file.path(x, imgs))
+pdfs <- file.path(y, "pdfs")
+lapply(bins, gridify_pdf, out=pdfs)
+
+## Merge PDFs, compact PDF, clean up
+z <- merge_pdf(file.path(pdfs, dir(pdfs)), file.path(y, "gridify.pdf"))
+library(tools)
+compactPDF(z)
+delete(pdfs)
+
+## Code sheet
+write_embodied(
+    id = file_path_sans_ext(imgs),
+    time = mp4_to_times(loc, fps = fps)[seq_along(imgs)],
+    file = file.path(y, "coding.csv")
+)
 }
-\author{
-Ananda Mahto and Tyler Rinker <tyler.rinker@gmail.com>.
 }
 \seealso{
-\code{\link[embodied]{plot_grid}}
+\code{\link[embodied]{plot_grid}},
 \code{\link[embodied]{mp4_to_png}}
 }
 
