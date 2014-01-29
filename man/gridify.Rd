@@ -8,7 +8,7 @@ gridify(path = ".", out = file.path(path, "out"), pdf = TRUE,
   text.size = 2, grid.size = 0.25, grid.color = text.color, fps = 4,
   size = "500x500", other.opts = "", crop = "",
   code.sheet = file.path(out, "embodied.csv"), duration = NULL,
-  people = paste("person", 1:3, sep = "_"), ...)
+  people = paste("person", 1:3, sep = "_"), clean = TRUE, ...)
 }
 \arguments{
   \item{path}{Path to the in directory with the .png files
@@ -77,6 +77,12 @@ gridify(path = ".", out = file.path(path, "out"), pdf = TRUE,
   \item{people}{The people whose coordinates will be
   logged.}
 
+  \item{clean}{logical.  If \code{TRUE} and \code{pdf =
+  TRUE} the directory with sequence of images will be
+  removed after
+  \href{http://www.ghostscript.com/}{Gohstscript}
+  integration.}
+
   \item{\ldots}{other arguments passed to
   \code{\link[grDevices]{png}}.}
 }
@@ -99,6 +105,9 @@ viewing.
 \examples{
 deb <- system.file("extdata", package = "embodied")
 gridify(deb, "out")
+}
+\author{
+Ananda Mahto and Tyler Rinker <tyler.rinker@gmail.com>.
 }
 \seealso{
 \code{\link[embodied]{plot_grid}}

@@ -7,7 +7,9 @@
 #' file.
 #' @param out Path to the out directory.
 #' @param pdf logical.  If \code{TRUE} a single .pdf (\file{./raw/gridified.png})
-#' is generated.  This enables zooming and a single scrollable file.
+#' is generated.  This enables zooming and a single scrollable file.  
+#' \href{http://www.ghostscript.com/}{ghostscript} must be installed and on your 
+#' path.
 #' @param columns The number of grid columns.
 #' @param rows The number of grid rows.
 #' @param parallel logical.  If \code{TRUE} attempts to run the function on 
@@ -38,6 +40,9 @@
 #' .png files are passed to \code{path}.  This is used for \code{code.sheet}.  
 #' Note that \code{fps} should also be set.
 #' @param people The people whose coordinates will be logged.
+#' @param clean logical.  If \code{TRUE} and \code{pdf = TRUE} the directory 
+#' with sequence of images will be removed after 
+#' \href{http://www.ghostscript.com/}{Gohstscript} integration.
 #' @param \ldots other arguments passed to \code{\link[grDevices]{png}}.
 #' @return Returns multiple png files with grid lines.
 #' @export
@@ -46,6 +51,8 @@
 #' the .csv is opened.  Within some spreadsheet programs, changing the 
 #' \strong{format} to a \strong{custom} of \code{hh:mm:ss.00} enables proper 
 #' viewing.
+#' @reference \url{http://trinkerrstuff.wordpress.com/2012/10/08/splitting-and-combining-r-pdf-visuals/}
+#' @author Ananda Mahto and Tyler Rinker <tyler.rinker@@gmail.com>.
 #' @importFrom parallel parLapply makeCluster detectCores stopCluster clusterEvalQ clusterExport
 #' @importFrom tools file_ext file_path_sans_ext
 #' @importFrom ggplot2 ggtitle
@@ -59,7 +66,8 @@ gridify <- function(path = ".", out = file.path(path, "out"), pdf = TRUE,
     width = 6, height = 6, text.color = "gray60", text.size = 2, 
     grid.size = .25, grid.color = text.color, fps = 4, size = "500x500", 
     other.opts = "", crop = "", code.sheet = file.path(out, "embodied.csv"), 
-    duration = NULL, people = paste("person", 1:3, sep = "_"), ...){
+    duration = NULL, people = paste("person", 1:3, sep = "_"), clean = TRUE, 
+	...){
 	
     ## Evaluate out because path may change and defualt uses path
     if(basename(path) == path && file_ext(path) =="mp4" && 
@@ -99,37 +107,44 @@ gridify <- function(path = ".", out = file.path(path, "out"), pdf = TRUE,
 
     ## pdf vs png output
     if(pdf) {
+        folder(folder.name = file.path(out, "pdfs"))
         ## Parallel process handling
         if (parallel && cores > 1){
-            
+            plot_fun <- function(x) pdf(x, width=width, height=height, ...) 
+           
             cl <- makeCluster(mc <- getOption("cl.cores", detectCores()/2))
             vars <- c("fls", "dat", "text.color", "grid.color", "ggtitle",
-                "file_path_sans_ext", "plot_grid", "text.size")
+                "file_path_sans_ext", "plot_grid", "text.size", "plot_fun")
             
             clusterExport(cl=cl, varlist=vars, envir = environment())
             
-            imgs <- parLapply(cl, fls, function(x){
-                plot_grid(x, grid.data = dat, text.color = text.color, 
+            parLapply(cl, fls, function(x){
+                plot_fun(file.path(out, "pdfs", gsub("\\.png", "\\.pdf", basename(x))))
+                print(plot_grid(x, grid.data = dat, text.color = text.color, 
                     text.size = text.size, grid.color = grid.color, 
                     grid.size = grid.size)+ 
-                    ggtitle(file_path_sans_ext(basename(x)))
+                    ggtitle(file_path_sans_ext(basename(x))))
+                dev.off()
             })
 
-            stopCluster(cl)
-            pdf(file.path(out, "gridified.pdf"), width=width, height=height, ...)
-            invisible(print(imgs))
-            dev.off()
         } else { 
-            pdf(file.path(out, "gridified.pdf"), width=width, height=height, ...)
+
             invisible(lapply(fls, function(x){
+                pdf(file.path(out, "pdfs", gsub("\\.png", "\\.pdf", basename(x))))
                 print(plot_grid(x, grid.data = dat, text.color = text.color, 
-                	text.size = text.size, grid.color = grid.color, 
-                  grid.size = grid.size) + 
-                  ggtitle(basename(x)))
+                	  text.size = text.size, grid.color = grid.color, 
+                    grid.size = grid.size) + 
+                    ggtitle(basename(x)))
+                dev.off()
             }))
-            dev.off()
+        }
+        fls <- file.path(out, "pdfs", dir(file.path(out, "pdfs")))
+        mergePDF(in.file=fls, file = file.path(out, "gridified.pdf"))
+        if (clean) {
+            delete(file.path(out, "pdfs"))
         }
     } else {
+
         ## Parallel process handling
         if (parallel && cores > 1){
             plot_fun <- function(x) png(x, width=width, height=height, ...)
