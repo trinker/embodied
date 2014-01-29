@@ -139,7 +139,7 @@ loc <- "foo.mp4"
 fps <- 4
 x <- mp4_to_png(loc, fps = fps)
 
-## Generate fridied pdfs from
+## Generate gridified pdfs
 y <- folder(folder.name=file.path(x, "out"))
 imgs <- dir(x)[grep("image-", dir(x))]
 bins <- binify(file.path(x, imgs))

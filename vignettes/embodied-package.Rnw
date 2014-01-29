@@ -80,7 +80,7 @@ pdf.options(useDingbats = TRUE)
 
 \subsection{gridfy}
 
-Use of the \href{http://trinker.github.io/embodied/gridify.html}{\textbf{gridify}} function can accomplish The first 2 steps.  Ideally, the suer will supply a .mp4 file to the function, though \textbf{gridify} also takes a directory of .png files as well.  The function utilizes ggplot2 \citep{R-ggplot2} to output a single, scrollable .pdf or a directory of .png image files with grids and labels that the user can then use to record the movement (step 3) of participants across space and time.  These motions are recorded in the code sheet .csv that is printed out.
+Use of the \href{http://trinker.github.io/embodied/gridify.html}{\textbf{gridify}} function can accomplish The first 2 steps.  Ideally, the suer will supply a .mp4 file to the function, though \textbf{gridify} also takes a directory of .png files as well.  The function utilizes \textbf{ggplot2} \citep{R-ggplot2} to output a single, scrollable .pdf or a directory of .png image files with grids and labels that the user can then use to record the movement (step 3) of participants across space and time.  These motions are recorded in the code sheet .csv that is printed out.
 
 The following code chunk demonstrates the usage:
 
@@ -149,9 +149,47 @@ Step 4 can be addressed with the \href{http://trinker.github.io/embodied/write_e
 dat <- read_embodied("foo.csv", columns = 30, rows = columns)
 @
 
+\newpage
+
+\section{Functions for Longer Videos}
+
+Larger mp4 files may cause errors or unexpected hangups due to extended processig time and large file sizes.  The user may want to consider breaking the job into smaller subcomponents and using elementary, non-wrapper functions including \texttt{gridify\_pdf}.
+
+The following script demonstrates the process of converting a larger .mp4 video into a PDF with gridlines.
+
+
+<<heavy_work_flow, eval=FALSE>>=
+## Create png files from .mp4
+loc <- "foo2.mp4"
+fps <- 4
+x <- mp4_to_png(loc, fps = fps)
+
+## Generate gridified pdfs
+y <- folder(folder.name=file.path(x, "out"))
+imgs <- dir(x)[grep("image-", dir(x))]
+bins <- binify(file.path(x, imgs))
+pdfs <- file.path(y, "pdfs")
+lapply(bins, gridify_pdf, out=pdfs)
+
+## Merge PDFs, compact PDF, clean up
+z <- merge_pdf(file.path(pdfs, dir(pdfs)), file.path(y, "gridify.pdf"))
+library(tools)
+compactPDF(z)
+delete(pdfs)
+
+## Code sheet
+write_embodied(
+    id = file_path_sans_ext(imgs),
+    time = mp4_to_times(loc, fps = fps)[seq_along(imgs)],
+    file = file.path(y, "coding.csv")
+)
+@
+
+\newpage
+
 \section{Motion Paths}
 
-The following short script allows us to generate a motion path animated .mp4 and .gif.  I have chosen to access the tools of \href{http://www.ffmpeg.org/ffmpeg.html}{FFmpeg} and \href{http://www.imagemagick.org/script/index.php}{ImageMagick} directly via the `command` function; however, one could easily use the functions from Yiui \citep{R-animation} animation package.
+The following short script allows us to generate a motion path animated .mp4 and .gif.  I have chosen to access the tools of \href{http://www.ffmpeg.org/ffmpeg.html}{FFmpeg} and \href{http://www.imagemagick.org/script/index.php}{ImageMagick} directly via the \texttt{command} function; however, one could easily use the functions from Yiui \posscite{R-animation} \textbf{animation} package.
 
 \subsection{Check ffmpeg/convert Access}
 
@@ -189,6 +227,8 @@ Delegates: bzlib cairo freetype jbig jng jp2 jpeg lcms lqr pangocairo png ps rsv
 \end{alltt}
 \end{kframe}
 \end{knitrout}
+
+\newpage
 
 \subsection{Steps to Plot Animated Paths}
 
@@ -257,10 +297,9 @@ command("convert -delay 10 -loop 0 out/*.png out/out.gif")
 \end{center}
 \end{figure}
 
-
 \section{Dialogue Density Plots}
 
-The following short script allows us to generate a series dialogue density plot using the ggplot2 \citep{R-ggplot2} and the \textbf{embodied} \citep{R-embodied} packages.
+The following short script allows us to generate a series dialogue density plot using the \textbf{ggplot2} \citep{R-ggplot2} and the \textbf{embodied} \citep{R-embodied} packages.
 
 \subsection{Reading in Image and Preparing Data}
 

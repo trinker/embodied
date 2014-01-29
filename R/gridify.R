@@ -77,7 +77,7 @@
 #' fps <- 4
 #' x <- mp4_to_png(loc, fps = fps)
 #' 
-#' ## Generate fridied pdfs from
+#' ## Generate gridified pdfs
 #' y <- folder(folder.name=file.path(x, "out"))
 #' imgs <- dir(x)[grep("image-", dir(x))]
 #' bins <- binify(file.path(x, imgs))
@@ -162,7 +162,9 @@ gridify <- function(path = ".", out = file.path(path, "out"), pdf = TRUE,
                     ggtitle(file_path_sans_ext(basename(x))))
                 dev.off()
             })
-
+        	
+            stopCluster(cl)
+        	
         } else { 
 
             invisible(lapply(fls, function(x){
@@ -279,6 +281,7 @@ gridify_pdf <- function (pngs, out = "out/pdf",
               grid.size = grid.size) + ggtitle(file_path_sans_ext(basename(x))))
             dev.off()
         })
+        stopCluster(cl)
     } else {
         invisible(lapply(pngs, function(x) {
             pdf(file.path(out, gsub("\\.png", "\\.pdf", 
