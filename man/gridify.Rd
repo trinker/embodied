@@ -157,9 +157,17 @@ pdfs <- file.path(y, "pdfs")
 lapply(bins, gridify_pdf, out=pdfs)
 
 ## Merge PDFs, compact PDF, clean up
-z <- merge_pdf(file.path(pdfs, dir(pdfs)), file.path(y, "gridify.pdf"))
 library(tools)
-compactPDF(z)
+z <- file.path(pdfs, dir(pdfs))
+## size <- 500 #typically a good cut value
+size <- 50
+z2 <- binify(z, length(z)/size)
+lapply(names(z2), function(x) {
+    merge_pdf(z2[x], sprintf("\%s/batch_\%s.pdf", y, x))
+    compactPDF(sprintf("\%sbatch_\%s.pdf", y, x))
+    print(x)
+    flush.console()
+})
 delete(pdfs)
 
 ## Code sheet

@@ -91,15 +91,23 @@
 #' lapply(bins, gridify_pdf, out=pdfs)
 #' 
 #' ## Merge PDFs, compact PDF, clean up
-#' z <- merge_pdf(file.path(pdfs, dir(pdfs)), file.path(y, "gridify.pdf"))
 #' library(tools)
-#' compactPDF(z)
+#' z <- file.path(pdfs, dir(pdfs))
+#' ## size <- 500 #typically a good cut value
+#' size <- 50
+#' z2 <- binify(z, length(z)/size)
+#' lapply(names(z2), function(x) {
+#'     merge_pdf(z2[x], sprintf("%s/batch_%s.pdf", y, x))
+#'     compactPDF(sprintf("%sbatch_%s.pdf", y, x))
+#'     print(x)
+#'     flush.console()
+#' })
 #' delete(pdfs)
 #' 
 #' ## Code sheet
 #' write_embodied(
-#'     id = file_path_sans_ext(imgs), 
-#'     time = mp4_to_times(loc, fps = fps)[seq_along(imgs)], 
+#'     id = file_path_sans_ext(imgs),
+#'     time = mp4_to_times(loc, fps = fps)[seq_along(imgs)],
 #'     file = file.path(y, "coding.csv")
 #' )
 #' }
@@ -175,13 +183,13 @@ gridify <- function(path = ".", out = file.path(path, "out"), pdf = TRUE,
             ## Make singular pdf file
             fls <- file.path(out, "pdfs", dir(file.path(out, "pdfs")))
             len <- length(fls)
-            if(len < 1000) {
+            if(len < 500) {
                 dirs <- list(`1`=fls)
             } else {
-                dirs <- binify(fls, ceiling(len/1000))
+                dirs <- binify(fls, ceiling(len/500))
             }
 
-            cl <- makeCluster(mc <- getOption("cl.cores", detectCores()/2))
+            cl <- makeCluster(mc <- getOption("cl.cores", cores))
             vars <- c("dirs", "merge_pdf", "out", "compactPDF", "compress.pdf")
             
             clusterExport(cl=cl, varlist=vars, envir = environment())
@@ -209,10 +217,10 @@ gridify <- function(path = ".", out = file.path(path, "out"), pdf = TRUE,
             ## Make singular pdf file
             fls <- file.path(out, "pdfs", dir(file.path(out, "pdfs")))
             len <- length(fls)
-            if(len < 1000) {
+            if(len < 500) {
                 dirs <- list(`1`=fls)
             } else {
-                dirs <- binify(fls, ceiling(len/1000))
+                dirs <- binify(fls, ceiling(len/500))
             }
 
             lapply(names(dirs), function(x){
