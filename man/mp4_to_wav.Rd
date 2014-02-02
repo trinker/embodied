@@ -2,7 +2,7 @@
 \alias{mp4_to_wav}
 \title{Convert .mp to Audio (.wav)}
 \usage{
-mp4_to_wav(path, out = file.path(path, "out.wav"), ffmpeg = NULL)
+mp4_to_wav(path, out = "out.wav", ffmpeg = NULL)
 }
 \arguments{
   \item{path}{Path to the in .mp4 video file.}

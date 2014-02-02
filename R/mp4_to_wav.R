@@ -15,7 +15,7 @@
 #' \dontrun{
 #' mp4_to_wav("foo.mp4", "foo.wav")
 #' }
-mp4_to_wav<- function(path, out = file.path(path, "out.wav"), ffmpeg = NULL) {
+mp4_to_wav<- function(path, out = "out.wav", ffmpeg = NULL) {
 
     ## Detect OS and use shell on Windows or system else
     fun <- ifelse(Sys.info()["sysname"] == "Windows", "shell", "system")
