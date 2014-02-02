@@ -17,7 +17,6 @@ Suggests:
     animation,
     knitr,
     scales,
-    seewave,
     tuneR
 Description: Provides tools for working with video data related to motion and
     space.
