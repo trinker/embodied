@@ -16,7 +16,9 @@ Imports:
 Suggests:
     animation,
     knitr,
-    scales
+    scales,
+    seewave,
+    tuneR
 Description: Provides tools for working with video data related to motion and
     space.
 SystemRequirements: FFmpeg (http://ffmpeg.org); ImageMagick
