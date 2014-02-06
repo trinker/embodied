@@ -2,14 +2,14 @@
 citHeader("To cite embodied in publications, please use:")
 
 citEntry(entry = "manual",
-    title = "{embodied}: {E}bodiement related analysis tools.",
+    title = "{embodied}: {E}mbodiement related analysis tools.",
     author = "Tyler W. Rinker",
     organization = "University at Buffalo/SUNY",
     address = "Buffalo, New York",
     year = "2014",
     url = "http://github.com/trinker/embodied", 
     textVersion  = paste("Rinker, T. W. (2014).",
-        "embodied: Ebodiement related analysis tools.",
+        "embodied: Embodiement related analysis tools.",
         "University at Buffalo. Buffalo, New York.",
         "http://github.com/trinker/embodied")
 )
